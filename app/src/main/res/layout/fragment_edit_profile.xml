@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.account.edit.EditProfileFragment"
+    android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Full Name"
+            android:textColor="#A69A9A"
+            android:textSize="16sp"
+            android:paddingBottom="5dp"/>
+
+        <EditText
+            android:id="@+id/editFullName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:inputType="textPersonName"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email Address"
+            android:textColor="#A69A9A"
+            android:textSize="16sp"
+            android:paddingTop="15dp"
+            android:paddingBottom="5dp"/>
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:inputType="textEmailAddress"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone Number"
+            android:textSize="16sp"
+            android:textColor="#A69A9A"
+            android:paddingTop="15dp"
+            android:paddingBottom="5dp"/>
+
+        <EditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:textSize="16sp"
+            android:inputType="phone"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="Save Changes"
+
+            android:background="@drawable/add_to_card_shape"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -51,4 +51,14 @@
         android:name="com.example.worka1.ui.account.helpandsupport.HelpAndSupport"
         android:label="Help and Support"
         tools:layout="@layout/fragment_help_and_support" />
+    <fragment
+        android:id="@+id/navigation_mybookings"
+        android:name="com.example.worka1.ui.account.mybooking.MybookingFragment"
+        android:label="My bookings"
+        tools:layout="@layout/fragment_mybooking" />
+    <fragment
+        android:id="@+id/navigation_native_device"
+        android:name="com.example.worka1.ui.account.nativedevice.NativeDeviceFragment"
+        android:label="Native Devices"
+        tools:layout="@layout/fragment_native_device" />
 </navigation>

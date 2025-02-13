@@ -46,4 +46,9 @@
         android:name="com.example.worka1.ui.account.edit.EditProfileFragment"
         android:label="Edit"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/navigation_helpandsupport"
+        android:name="com.example.worka1.ui.account.helpandsupport.HelpAndSupport"
+        android:label="Help and Support"
+        tools:layout="@layout/fragment_help_and_support" />
 </navigation>

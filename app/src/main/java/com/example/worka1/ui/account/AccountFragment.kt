@@ -15,6 +15,7 @@ import com.example.worka1.ui.account.edit.EditProfileFragment
 
 class AccountFragment : Fragment() {
 
+
     companion object {
         fun newInstance() = AccountFragment()
     }
@@ -36,6 +37,11 @@ class AccountFragment : Fragment() {
             findNavController().navigate(R.id.navigation_edit)
         }
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+        val supportbutton=view.findViewById<TextView>(R.id.helpandsupport)
+        supportbutton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_helpandsupport)
+
+        }
         return view
     }
 }

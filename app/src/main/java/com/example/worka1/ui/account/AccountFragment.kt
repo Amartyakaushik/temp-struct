@@ -20,14 +20,12 @@ class AccountFragment : Fragment() {
     companion object {
         fun newInstance() = AccountFragment()
     }
-
     private val viewModel: AccountViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

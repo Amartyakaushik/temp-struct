@@ -61,4 +61,35 @@
         android:name="com.example.worka1.ui.account.nativedevice.NativeDeviceFragment"
         android:label="Native Devices"
         tools:layout="@layout/fragment_native_device" />
+    <fragment
+        android:id="@+id/navigation_account_help"
+        android:name="com.example.worka1.ui.account.helpandsupport.help.AccountHelp"
+        android:label="Account "
+        tools:layout="@layout/fragment_account_help" />
+    <fragment
+        android:id="@+id/navigation_getting_start"
+        android:name="com.example.worka1.ui.account.helpandsupport.help.GettingStartFragment"
+        android:label="Getting Start"
+        tools:layout="@layout/fragment_getting_start" />
+    <fragment
+        android:id="@+id/navigation_payment_credits"
+        android:name="com.example.worka1.ui.account.helpandsupport.help.PaymentAndCreditFragment"
+        android:label="Payment and Credits"
+        tools:layout="@layout/fragment_payment_and_credit" />
+    <fragment
+        android:id="@+id/navigation_membership"
+        android:name="com.example.worka1.ui.account.helpandsupport.help.MembershipFragment"
+        android:label="Plus membership"
+        tools:layout="@layout/fragment_membership" />
+    <fragment
+        android:id="@+id/navigation_safety"
+        android:name="com.example.worka1.ui.account.helpandsupport.help.SafetyFragment"
+        android:label="Safety"
+        tools:layout="@layout/fragment_safety" />
+    <fragment
+        android:id="@+id/navigation_claim_warranty"
+        android:name="com.example.worka1.ui.account.helpandsupport.help.ClaimWarrantyFragment"
+        android:label="Claim Warranty"
+        tools:layout="@layout/fragment_claim_warranty" />
+
 </navigation>

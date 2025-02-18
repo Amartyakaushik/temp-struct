@@ -1,0 +1,57 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/main"
+    android:background="@android:color/white"
+    tools:context=".ui.account.helpandsupport.help.GettingStartFragment">
+
+    <!-- Title Section -->
+    <TextView
+        android:id="@+id/profileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Getting started with workA1"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:padding="10dp"
+        android:text="About us"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/getting_start_about_recylerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="3dp" />
+
+
+    <TextView
+        android:id="@+id/aboutUsBooking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:padding="10dp"
+        android:text="Bookings"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/getting_start_booking_recylerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="3dp" />
+
+</LinearLayout>

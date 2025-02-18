@@ -1,3 +1,3 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-    <stroke android:color="#388e3c" android:width="2dp"/>
+    <stroke android:color="#7C747675" android:width="2dp"/>
 </shape>

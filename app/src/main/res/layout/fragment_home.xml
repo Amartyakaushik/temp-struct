@@ -10,4 +10,8 @@
     tools:context=".ui.home.HomeFragment">
     <include layout="@layout/activity_location_container"/>
     <include layout="@layout/activity_search_box"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/services_container" />
 </LinearLayout>

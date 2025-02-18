@@ -6,11 +6,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
             <RelativeLayout
+                android:id="@+id/all_topics_help"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:padding="15dp"
-                android:layout_marginEnd="5dp">
+              >
 
                 <ImageView
                     android:layout_width="20dp"
@@ -37,12 +38,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/next_navigation"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    app:tint="#595656" />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
+                android:backgroundTint="#E2DBDB"
                 android:background="@android:color/darker_gray"/>
 
 </LinearLayout>

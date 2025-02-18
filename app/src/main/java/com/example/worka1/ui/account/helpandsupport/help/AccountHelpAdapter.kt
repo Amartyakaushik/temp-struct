@@ -1,4 +1,4 @@
-package com.example.worka1.ui.account.helpandsupport
+package com.example.worka1.ui.account.helpandsupport.help
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,39 +9,35 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.R
 
-class HelpItemsAdapter(
-    private val image: List<Int>,
+class AccountHelpAdapter(
     private val name: List<String>,
     private val navController: NavController
-) : RecyclerView.Adapter<HelpItemsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<AccountHelpAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image1: ImageView = view.findViewById(R.id.ic_all_topic)
         val name: TextView = view.findViewById(R.id.items_name)
+        val icon: ImageView = view.findViewById(R.id.ic_all_next)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.all_topics_items, parent, false)
+            .inflate(R.layout.account_items, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.image1.setImageResource(image[position])
         holder.name.text = name[position]
-
 
         holder.itemView.setOnClickListener {
             when (position) {
                 0 -> navController.navigate(R.id.navigation_account_help)
-                1 -> navController.navigate(R.id.navigation_getting_start)
-                2 -> navController.navigate(R.id.navigation_payment_credits)
-                3 -> navController.navigate(R.id.navigation_membership)
-                4 -> navController.navigate(R.id.navigation_safety)
-                5 -> navController.navigate(R.id.navigation_claim_warranty)
+                1 -> navController.navigate(R.id.navigation_account_help)
+                2 -> navController.navigate(R.id.navigation_account_help)
+                3 -> navController.navigate(R.id.navigation_account_help)
+
             }
         }
     }
+
     override fun getItemCount(): Int = name.size
 }
-

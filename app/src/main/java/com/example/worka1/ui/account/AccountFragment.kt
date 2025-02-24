@@ -42,7 +42,6 @@ class AccountFragment : Fragment() {
         val paymentsCard = view.findViewById<MaterialCardView>(R.id.card_payments)
         val helpSupportCard = view.findViewById<MaterialCardView>(R.id.card_help_support)
 
-
         myBookingCard.setOnClickListener {
             findNavController().navigate(R.id.navigation_mybookings)
         }

@@ -5,9 +5,43 @@
     android:layout_height="match_parent"
     tools:context=".ui.schedule.ScheduleFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_schedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/empty_schedule_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No bookings yet."
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Looks like you haven't experienced\n         quality services at home."
+            android:textColor="#666666"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/explore_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explore our services"
+            android:textColor="#9B3CAB"
+            android:layout_marginTop="10dp"
+            android:drawableRight="@drawable/next_navigation"
+            android:drawableTint="#9B3CAB"
+            android:drawablePadding="2dp" />
+
+    </LinearLayout>
 
 </FrameLayout>

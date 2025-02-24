@@ -8,8 +8,8 @@
     android:layout_marginTop="10sp"
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
-    <include layout="@layout/activity_location_container"/>
-    <include layout="@layout/activity_search_box"/>
+    <include android:id="@+id/location_container_home" layout="@layout/activity_location_container"/>
+    <include android:id="@+id/search_container_home" layout="@layout/search_box"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

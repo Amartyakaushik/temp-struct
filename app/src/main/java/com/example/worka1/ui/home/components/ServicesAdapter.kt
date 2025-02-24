@@ -47,7 +47,7 @@ class ServicesAdapter(private val servicesList: List<HomeService>) : RecyclerVie
         val serviceSubCategories = view.findViewById<RecyclerView>(R.id.services_category_container)
         val layoutManager = GridLayoutManager(context, 3)
         serviceSubCategories.layoutManager = layoutManager
-        serviceSubCategories.adapter = ServiceCategoriesAdapter(service.subCategories)
+        serviceSubCategories.adapter = ServiceCategoriesAdapter(service.id, service.subCategories)
         serviceImage.setImageResource(service.image)
         serviceTitle.text = service.name
         serviceDescription.text = service.description

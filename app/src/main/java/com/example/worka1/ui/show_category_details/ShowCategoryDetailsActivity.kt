@@ -15,7 +15,7 @@ import com.example.worka1.R
 class ShowCategoryDetailsActivity : AppCompatActivity() {
     lateinit var categoryId: String
     lateinit var subCategoryId: String
-
+    lateinit var itemId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,16 +31,19 @@ class ShowCategoryDetailsActivity : AppCompatActivity() {
             intent.getSerializableExtra("sub_categories_details") as? HashMap<*, *>
         val textViewCategory = findViewById<TextView>(R.id.textView_category)
         val textViewSubCategory = findViewById<TextView>(R.id.textView_sub_category)
+        val textViewItem = findViewById<TextView>(R.id.textView_item)
 
         if (subCategoriesDetails != null) {
             categoryId = subCategoriesDetails["category_id"].toString()
             subCategoryId = subCategoriesDetails["sub_category_id"].toString()
-
+            itemId = subCategoriesDetails["item_id"].toString()
             textViewCategory.text = "Category ID: $categoryId"
             textViewSubCategory.text = "Sub-Category ID: $subCategoryId"
+            textViewItem.text = "Item ID: $itemId"
         } else {
             textViewCategory.text = "No category details available"
             textViewSubCategory.text = ""
+            textViewItem.text = ""
         }
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)

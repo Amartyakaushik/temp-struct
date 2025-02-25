@@ -37,6 +37,7 @@ class ServiceCategoriesAdapter(
                 val subCategoriesDetails = HashMap<String, String>()
                 subCategoriesDetails["category_id"] = categoryId ?: ""
                 subCategoriesDetails["sub_category_id"] = subCategory.id
+                subCategoriesDetails["item_id"] = (-1).toString()
                 intent.putExtra("sub_categories_details", subCategoriesDetails)
                 holder.itemView.context.startActivity(intent)
             }

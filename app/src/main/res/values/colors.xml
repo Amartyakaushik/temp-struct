@@ -11,4 +11,7 @@
     <color name="endColor">#15BE77</color>
     <color name="startblack">#0E0F0E</color>
     <color name="endblack">#0E0F0E</color>
+    <color name="primaryColor">#6200EE</color>
+    <color name="accentColor">#03DAC5</color>
+    <color name="textColor">#FFFFFF</color>
 </resources>

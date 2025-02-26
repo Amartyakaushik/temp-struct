@@ -17,12 +17,12 @@ class MembershipAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.items_name)
-        val icon: ImageView = view.findViewById(R.id.ic_all_next)
+        val icon: ImageView = view.findViewById(R.id.ic_image1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.account_items, parent, false)
+            .inflate(R.layout.recycler_items, parent, false)
         return ViewHolder(view)
     }
 

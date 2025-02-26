@@ -34,9 +34,9 @@ class MembershipFragment : Fragment() {
 
         val purchaseNames = listOf(
             "What are the benefits of the membership?",
-            "What are the maximum discount that I can \nget by using WorkA1 Plus?",
+            "What are the maximum discount that\nI can get by using WorkA1 Plus?",
             "How do I buy the membership?",
-            "Can I pay for membership with cash on delivery?",
+            "Can I pay for membership with cash\non delivery?",
             "Can I share membership with family?"
         )
 

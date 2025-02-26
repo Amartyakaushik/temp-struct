@@ -37,15 +37,23 @@ class HelpAndSupport : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val images = listOf(
-            R.drawable.ic_profile_24, R.drawable.ic_profile_24, R.drawable.payment_method,
-            R.drawable.payment_method, R.drawable.ic_profile_24, R.drawable.ic_profile_24
+            R.drawable.ic_profile_24,
+            R.drawable.ic_profile_24,
+            R.drawable.payment_method,
+            R.drawable.payment_method,
+            R.drawable.ic_profile_24,
+            R.drawable.ic_profile_24
         )
         val names = listOf(
-            "Account ", "Getting started with WorkA1", "Payment & WorkA1 Credits",
-            "WorkA1 Plus Membership", "WorkA1 Safety", "Claim Warranty"
+            "Account ",
+            "Getting started with WorkA1",
+            "Payment & WorkA1 Credits",
+            "WorkA1 Plus Membership",
+            "WorkA1 Safety",
+            "Claim Warranty"
         )
 
-        val adapter = HelpItemsAdapter(images, names, findNavController())
+        val adapter = HelpandSupportItemAdapter(images, names, findNavController())
 
         binding.allItemRecylerview.layoutManager = LinearLayoutManager(requireContext())
         binding.allItemRecylerview.adapter = adapter

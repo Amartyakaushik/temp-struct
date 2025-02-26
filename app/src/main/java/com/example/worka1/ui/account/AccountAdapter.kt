@@ -1,5 +1,4 @@
-package com.example.worka1.ui.account.helpandsupport
-
+package com.example.worka1.ui.account
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +8,20 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.R
 
-class HelpItemsAdapter(
+class AccountAdapter(
     private val image: List<Int>,
     private val name: List<String>,
     private val navController: NavController
-) : RecyclerView.Adapter<HelpItemsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<AccountAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image1: ImageView = view.findViewById(R.id.ic_all_topic)
+        val image1: ImageView = view.findViewById(R.id.ic_image1)
         val name: TextView = view.findViewById(R.id.items_name)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.all_topics_items, parent, false)
+            .inflate(R.layout.getting_start_items, parent, false)
         return ViewHolder(view)
     }
 

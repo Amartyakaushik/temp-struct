@@ -31,8 +31,10 @@ class AccountHelp : Fragment() {
         }
 
         val names = listOf(
-            "I want to change my phone number", "Where can I check my saved addresses?", "I want to change my email address",
-            "Where can I see my saved payment details?"
+            "I want to change my phone number",
+            "Where can I check my saved addresses?",
+            "I want to change my email address",
+            "Where can I see my saved payment\ndetails?"
         )
 
         val adapter = AccountHelpAdapter(names, findNavController())

@@ -1,34 +1,50 @@
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:padding="15dp"
-        >
+        android:padding="15dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:id="@+id/ic_image1"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:id="@+id/items_name"
-            android:text="All topics "
+            android:text="All topics"
             android:textSize="15sp"
+            android:layout_toEndOf="@id/ic_image1"
             android:layout_marginStart="8dp"
             android:layout_centerVertical="true"/>
 
         <ImageView
-            android:id="@+id/ic_image1"
+            android:id="@+id/ic_image2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:src="@drawable/next_navigation"
             android:layout_centerVertical="true"
-            app:tint="#595656" />
+            android:layout_marginEnd="2dp"
+        app:tint="#595656" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#E2DBDB"
+        android:background="@android:color/darker_gray"/>
 
 </LinearLayout>

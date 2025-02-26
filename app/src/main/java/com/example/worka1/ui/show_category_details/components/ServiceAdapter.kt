@@ -11,7 +11,10 @@ import com.example.worka1.R
 import com.example.worka1.ui.home.components.HomeService
 import com.example.worka1.ui.home.components.ServiceCategories
 
-class ServiceAdapter(private val servicesList: List<ServiceCategories>) : RecyclerView.Adapter<ServiceAdapter.ViewHolder>() {
+class ServiceAdapter(
+    private val servicesList: List<ServiceCategories>,
+    private val listener: OnServiceClickListener
+) : RecyclerView.Adapter<ServiceAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.home_service_image)
@@ -32,7 +35,7 @@ class ServiceAdapter(private val servicesList: List<ServiceCategories>) : Recycl
         holder.textView.text = service.name
 
         holder.itemView.setOnClickListener {
-//            showBottomSheetDialog(holder.itemView.context, service)
+            listener.onServiceClick(service.id)
         }
     }
 

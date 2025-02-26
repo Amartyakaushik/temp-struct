@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.worka1.ui.home.components.HomeService
 import com.example.worka1.ui.home.components.ServiceCategoriesAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -26,7 +27,9 @@ class ServicesAdapter(private val servicesList: List<HomeService>) : RecyclerVie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val service = servicesList[position]
-        holder.imageView.setImageResource(service.image)
+        Glide.with(holder.itemView.context)
+            .load(service.image)
+            .into(holder.imageView)
         holder.textView.text = service.name
 
         holder.itemView.setOnClickListener {
@@ -48,7 +51,9 @@ class ServicesAdapter(private val servicesList: List<HomeService>) : RecyclerVie
         val layoutManager = GridLayoutManager(context, 3)
         serviceSubCategories.layoutManager = layoutManager
         serviceSubCategories.adapter = ServiceCategoriesAdapter(service.id, service.subCategories)
-        serviceImage.setImageResource(service.image)
+        Glide.with(view.context)
+            .load(service.image)
+            .into(serviceImage)
         serviceTitle.text = service.name
         serviceDescription.text = service.description
         dialog.show()

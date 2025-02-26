@@ -207,10 +207,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/accountRecyclerView"
-                    android:layout_height="match_parent"
+                    android:layout_height="450sp"
                     android:layout_marginTop="16dp"
                     android:padding="3dp"
-
                     />
 
             <com.google.android.material.card.MaterialCardView

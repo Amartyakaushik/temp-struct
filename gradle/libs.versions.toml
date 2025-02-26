@@ -27,6 +27,7 @@ media3Exoplayer = "1.5.1"
 media3Ui = "1.5.1"
 annotation = "1.9.1"
 googleGmsGoogleServices = "4.4.2"
+firebaseFirestore = "25.1.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +56,7 @@ play-services-maps-v1910 = { module = "com.google.android.gms:play-services-maps
 androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

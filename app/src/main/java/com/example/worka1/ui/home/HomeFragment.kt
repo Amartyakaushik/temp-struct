@@ -24,6 +24,9 @@ import com.example.worka1.ui.home.components.VideoAdapter
 import com.example.worka1.ui.home.components.VideoItem
 import com.example.worka1.ui.location_manager.MapsActivity
 import com.example.worka1.ui.search_services.SearchServicesActivity
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.firestore
 
 class HomeFragment : Fragment() {
 
@@ -44,87 +47,124 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // sets home services
-        val servicesList = listOf(
-            HomeService("carpenter", "Carpenter", R.drawable.carpenter, "Framework, roofing, partitions, scaffolding", listOf(
-                ServiceCategories("clothes_hanger", "Clothes Hanger", R.drawable.hanger),
-                ServiceCategories("bed", "Bed", R.drawable.bed),
-                ServiceCategories("cupboard_drawer", "Cupboard and Drawer", R.drawable.cupboard),
-                ServiceCategories("door", "Door", R.drawable.door),
-                ServiceCategories("drill_hang", "Drill and Hang", R.drawable.drill),
-                ServiceCategories("furniture_repair", "Furniture Repair", R.drawable.repair),
-                ServiceCategories("windows_curtain", "Windows and Curtain", R.drawable.window),
-                ServiceCategories("book_visit", "Book a visit", R.drawable.carpenter)
-            )),
+//        val servicesList = listOf(
+//            HomeService("carpenter", "Carpenter", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/home-screen/1678868062337-08bfc2.jpeg", "Framework, roofing, partitions, scaffolding", listOf(
+//                ServiceCategories("clothes_hanger", "Clothes Hanger", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726550805371-876b3c.jpeg"),
+//                ServiceCategories("bed", "Bed", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726507350527-c4abb0.jpeg"),
+//                ServiceCategories("cupboard_drawer", "Cupboard and Drawer", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729154973527-106a70.jpeg"),
+//                ServiceCategories("door", "Door", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726507333153-653b92.jpeg"),
+//                ServiceCategories("drill_hang", "Drill and Hang", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726507335888-e0ff92.jpeg"),
+//                ServiceCategories("furniture_repair", "Furniture Repair", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726507348146-3823dd.jpeg"),
+//                ServiceCategories("windows_curtain", "Windows and Curtain", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726550802862-411248.jpeg"),
+//                ServiceCategories("book_visit", "Book a visit", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638213050-c722c8.jpeg")
+//            )),
+//
+//            HomeService("electrician", "Electrician", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1699868754554-a5c5c9.jpeg", "Wiring, appliances, lighting, circuit repair", listOf(
+//                ServiceCategories("switch_socket", "Switch & Socket", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1719646923803-15ecf2.jpeg"),
+//                ServiceCategories("fan", "Fan", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729092471356-d358a6.jpeg"),
+//                ServiceCategories("wall_ceiling_light", "Wall/Ceiling Light", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638215421-85b9d3.jpeg"),
+//                ServiceCategories("wiring", "Wiring", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1701324401683-c49990.jpeg"),
+//                ServiceCategories("doorbell", "Doorbell", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1719646953257-df29fe.jpeg"),
+//                ServiceCategories("mcb_submeter", "MCB & Submeter", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1718988838289-6f4ca7.jpeg"),
+//                ServiceCategories("inverter_stabiliser", "Inverter & Stabiliser", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638222320-fa8e14.jpeg"),
+//                ServiceCategories("appliance", "Appliance", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638234862-fdd67a.jpeg"),
+//                ServiceCategories("book_visit", "Book a visit", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638213050-c722c8.jpeg")
+//            )),
+//
+//            HomeService("painter", "Painter", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/home-screen/1674120935535-f8d5c8.jpeg", "Wall painting, texture painting, waterproofing", listOf(
+//                ServiceCategories("interior_painting", "Interior Painting", "https://5.imimg.com/data5/SELLER/Default/2021/8/DC/WM/VI/136135105/interior-wall-painting-service-250x250.png"),
+//                ServiceCategories("exterior_painting", "Exterior Painting", "https://thumbs.dreamstime.com/b/exterior-house-painting-5047589.jpg"),
+//                ServiceCategories("texture_painting", "Texture Painting", "https://m.media-amazon.com/images/I/7121yUUL+6L._AC_UF350,350_QL80_.jpg"),
+//                ServiceCategories("waterproof_coating", "Waterproof Coating", "https://www.triadbasementwaterproofing.com/wp-content/uploads/2023/10/foundation-waterproofing.jpg"),
+//            )),
+//
+//            HomeService("plumber", "Plumber", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1722431282836-ee5db3.jpeg", "Pipes, taps, leakage, drainage solutions", listOf(
+//                ServiceCategories("bath_fittings", "Bath Fittings", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208784284-311057.jpeg"),
+//                ServiceCategories("basin_sink", "Basin & Sink", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208786381-99c5c9.jpeg"),
+//                ServiceCategories("grouting", "Grouting", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208788956-d88305.jpeg"),
+//                ServiceCategories("water_filter", "Water Filter", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208791525-b93fc6.jpeg"),
+//                ServiceCategories("drainage", "Drainage", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208793920-02e537.jpeg"),
+//                ServiceCategories("toilet", "Toilet", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208800630-0a4b9f.jpeg"),
+//                ServiceCategories("tap_mixer", "Tap & Mixer", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208807457-b543b1.jpeg"),
+//                ServiceCategories("water_tank", "Water Tank", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208809699-7904d8.jpeg"),
+//                ServiceCategories("motor", "Motor", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208812077-9d50b6.jpeg"),
+//                ServiceCategories("water_pipes", "Water Pipes", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208814728-1aa5db.jpeg"),
+//                ServiceCategories("book_visit", "Book a Visit", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_72,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208817629-0c5079.jpeg")
+//            )),
+//
+//            HomeService("cleaner", "Cleaner", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/home-screen/1681711961404-75dfec.jpeg", "Home deep cleaning, sofa cleaning, bathroom cleaning", listOf(
+//                ServiceCategories("bathroom_cleaning", "Bathroom Cleaning", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1728900642258-b12524.jpeg"),
+//                ServiceCategories("full_home_cleaning", "Full Home Cleaning", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1728900634115-e18640.jpeg"),
+//                ServiceCategories("kitchen_cleaning", "Kitchen Cleaning", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1728900636163-e44538.jpeg"),
+//                ServiceCategories("sofa_carpet_cleaning", "Sofa and Carpet Cleaning", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1728900640167-18109e.jpeg"),
+//                ServiceCategories("bug_control", "Bug Control", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1728900622918-72accc.jpeg")
+//            )),
+//
+//            HomeService("home_decor", "Home Decor", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1724138391296-c1780b.jpeg", "Interior design, wallpaper, false ceiling", listOf(
+//                ServiceCategories("interior_decoration", "Interior Decoration", "https://e7.pngegg.com/pngimages/976/775/png-clipart-blue-suede-3-seat-sofa-and-gray-sofa-chair-interior-design-services-poster-continental-lite-interior-design-angle-furniture.png"),
+//                ServiceCategories("waiter_booking", "Waiter Booking", "https://w7.pngwing.com/pngs/350/812/png-transparent-waiter-tray-t-shirt-graphy-table-the-waiter-furniture-plate-public-relations-thumbnail.png"),
+//                ServiceCategories("dj_booking", "DJ Booking", "https://pngimg.com/d/dj_PNG43.png"),
+//                ServiceCategories("party_events", "Party and Events", "https://w7.pngwing.com/pngs/644/545/png-transparent-silhouette-party-people-graduation-season-silhouette-of-people-dancing-purple-other-text-thumbnail.png")
+//            )),
+//
+//            HomeService("labour", "Labour", "https://cdn-icons-png.flaticon.com/256/11790/11790858.png", "Mason, construction work, general labor", listOf(
+//                ServiceCategories("masonry_work", "Masonry Work", "https://t3.ftcdn.net/jpg/05/43/25/20/240_F_543252012_WRGkhpOMBdmErNPJ8dyxgUZiCiql2JVV.png"),
+//                ServiceCategories("labourer", "Labourer", "https://cdn-icons-png.flaticon.com/256/11790/11790858.png"),
+//                ServiceCategories("gardener", "Gardener", "https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA5L3Jhd3BpeGVsb2ZmaWNlMTRfcGhvdG9fb2ZfNDBzX2FzaWFuX21hbl9nYXJkZW5lcl9ob2xkaW5nX3BvdHRlZF8yOWJjZjg0Ny0zMmU2LTRmYzQtYmU2MC1lOTcwYTgxNTc1OGJfMS5wbmc.png")
+//            )),
+//
+//            HomeService("beautician", "Beautician", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1678864013225-bfc1de.jpeg", "Haircut, facial, bridal makeup, grooming", listOf(
+//                ServiceCategories("male_beautician", "Male", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1710241114433-5cfa7c.jpeg"),
+//                ServiceCategories("female_beautician", "Female", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1678864013225-bfc1de.jpeg")
+//            )),
+//
+//            HomeService("A1_general_works", "A1 General Work", "https://cdn-icons-png.flaticon.com/256/8644/8644377.png", "Miscellaneous home services", listOf(
+//                ServiceCategories("home_tutor", "Home Tutor", "https://e7.pngegg.com/pngimages/202/169/png-clipart-juku-student-in-home-tutoring-teacher-%E6%8C%87%E5%B0%8E-autistic-spectrum-disorders-child-reading.png"),
+//                ServiceCategories("emergency_doctor_visit", "Emergency Doctor Visit", "https://www.pngfind.com/pngs/m/53-531148_black-doctor-png-black-medical-doctor-png-transparent.png"),
+//                ServiceCategories("mobile_repairing", "Mobile Repairing", "https://png.pngtree.com/png-clipart/20201209/original/pngtree-repair-mobile-phone-png-image_5632579.jpg"),
+//                ServiceCategories("computer_repairing", "Computer Repairing", "https://e7.pngegg.com/pngimages/471/66/png-clipart-computer-hardware-computer-repair-technician-computer-scientist-electronics-computer-computer-network-photography.png"),
+//                ServiceCategories("mechanic", "Mechanic", "https://img.favpng.com/10/19/23/car-daihatsu-automobile-repair-shop-auto-mechanic-png-favpng-waNABn5tuZny0PwMpMg2h9Wad.jpg"),
+//                ServiceCategories("auto_rickshaw_driver", "Auto/Rickshaw Driver", "https://w7.pngwing.com/pngs/961/502/png-transparent-scooter-car-auto-rickshaw-compact-van-scooter-van-scooter-diesel-fuel-thumbnail.png"),
+//                ServiceCategories("stitch_work", "Stitch Work", "https://png.pngtree.com/png-vector/20190119/ourmid/pngtree-tailor-cartoon-cartoon-tailor-lovely-png-image_479114.png")
+//            ))
+//        )
+//        val firestore = Firebase.firestore
+//        val servicesCollection = firestore.collection("services")
+//
+//        for (service in servicesList) {
+//            servicesCollection.document(service.id).set(service)
+//        }
+//
+//        val servicesRecyclerView = binding.root.findViewById<RecyclerView>(R.id.services_container)
+//        val layoutManager = GridLayoutManager(requireContext(), 3)
+//        servicesRecyclerView.layoutManager = layoutManager
+//        servicesRecyclerView.adapter = ServicesAdapter(servicesList)
 
-            HomeService("electrician", "Electrician", R.drawable.electrician, "Wiring, appliances, lighting, circuit repair", listOf(
-                ServiceCategories("switch_socket", "Switch & Socket", R.drawable.socket),
-                ServiceCategories("fan", "Fan", R.drawable.fan),
-                ServiceCategories("wall_ceiling_light", "Wall/Ceiling Light", R.drawable.ceiling),
-                ServiceCategories("wiring", "Wiring", R.drawable.wiring),
-                ServiceCategories("doorbell", "Doorbell", R.drawable.doorbell),
-                ServiceCategories("mcb_submeter", "MCB & Submeter", R.drawable.mcb),
-                ServiceCategories("inverter_stabiliser", "Inverter & Stabiliser", R.drawable.inverter),
-                ServiceCategories("appliance", "Appliance", R.drawable.appliance),
-                ServiceCategories("book_visit", "Book a visit", R.drawable.electrician)
-            )),
+        val firestore = Firebase.firestore
+        val servicesCollection = firestore.collection("services")
 
-            HomeService("painter", "Painter", R.drawable.painter, "Wall painting, texture painting, waterproofing", listOf(
-                ServiceCategories("interior_painting", "Interior Painting", R.drawable.interior),
-                ServiceCategories("exterior_painting", "Exterior Painting", R.drawable.exterior),
-                ServiceCategories("texture_painting", "Texture Painting", R.drawable.texture),
-                ServiceCategories("waterproof_coating", "Waterproof Coating", R.drawable.waterproof),
-                ServiceCategories("book_visit", "Book a visit", R.drawable.painter)
-            )),
-
-            HomeService("plumber", "Plumber", R.drawable.plumber, "Pipes, taps, leakage, drainage solutions", listOf(
-                ServiceCategories("drainage_system", "Drainage System", R.drawable.drainag),
-                ServiceCategories("bathroom_fittings", "Bathroom Fittings", R.drawable.bathroo),
-                ServiceCategories("kitchen_fittings", "Kitchen Fittings", R.drawable.kitche),
-                ServiceCategories("pipe_repairs", "Pipe Repairs", R.drawable.pip),
-                ServiceCategories("drainage_cleaning", "Drainage Cleaning", R.drawable.drainclea),
-                ServiceCategories("book_visit", "Book a visit", R.drawable.plumber)
-            )),
-
-            HomeService("cleaner", "Cleaner", R.drawable.cleaner, "Home deep cleaning, sofa cleaning, bathroom cleaning", listOf(
-                ServiceCategories("bathroom_cleaning", "Bathroom Cleaning", R.drawable.bathroomclea),
-                ServiceCategories("full_home_cleaning", "Full Home Cleaning", R.drawable.homeclea),
-                ServiceCategories("kitchen_cleaning", "Kitchen Cleaning", R.drawable.kitchenclea),
-                ServiceCategories("sofa_carpet_cleaning", "Sofa and Carpet Cleaning", R.drawable.furnitureclea),
-                ServiceCategories("bug_control", "Bug Control", R.drawable.bugcontro)
-            )),
-
-            HomeService("home_decor", "Home Decor", R.drawable.homedecor, "Interior design, wallpaper, false ceiling", listOf(
-                ServiceCategories("interior_decoration", "Interior Decoration", R.drawable.ic_back_arrow),
-                ServiceCategories("waiter_booking", "Waiter Booking", R.drawable.ic_back_arrow),
-                ServiceCategories("dj_booking", "DJ Booking", R.drawable.ic_back_arrow),
-                ServiceCategories("party_events", "Party and Events", R.drawable.ic_back_arrow)
-            )),
-
-            HomeService("labour", "Labour", R.drawable.labour, "Mason, construction work, general labor", listOf(
-                ServiceCategories("masonry_work", "Masonry Work", R.drawable.ic_back_arrow),
-                ServiceCategories("labourer", "Labourer", R.drawable.ic_back_arrow),
-                ServiceCategories("gardener", "Gardener", R.drawable.ic_back_arrow)
-            )),
-
-            HomeService("beautician", "Beautician", R.drawable.beautician, "Haircut, facial, bridal makeup, grooming", listOf(
-                ServiceCategories("male_beautician", "Male", R.drawable.ic_back_arrow),
-                ServiceCategories("female_beautician", "Female", R.drawable.ic_back_arrow)
-            )),
-
-            HomeService("A1_general_works", "A1 General Work", R.drawable.other, "Miscellaneous home services", listOf(
-                ServiceCategories("home_tutor", "Home Tutor", R.drawable.ic_back_arrow),
-                ServiceCategories("emergency_doctor_visit", "Emergency Doctor Visit", R.drawable.ic_back_arrow),
-                ServiceCategories("mobile_repairing", "Mobile Repairing", R.drawable.ic_back_arrow),
-                ServiceCategories("computer_repairing", "Computer Repairing", R.drawable.ic_back_arrow),
-                ServiceCategories("mechanic", "Mechanic", R.drawable.ic_back_arrow),
-                ServiceCategories("auto_rickshaw_driver", "Auto/Rickshaw Driver", R.drawable.ic_back_arrow),
-                ServiceCategories("stitch_work", "Stitch Work", R.drawable.ic_back_arrow)
-            ))
-        )
         val servicesRecyclerView = binding.root.findViewById<RecyclerView>(R.id.services_container)
         val layoutManager = GridLayoutManager(requireContext(), 3)
         servicesRecyclerView.layoutManager = layoutManager
-        servicesRecyclerView.adapter = ServicesAdapter(servicesList)
+
+        val servicesList = mutableListOf<HomeService>()
+        val servicesAdapter = ServicesAdapter(servicesList)
+        servicesRecyclerView.adapter = servicesAdapter
+
+        // fetch data from Firestore
+        servicesCollection.get()
+            .addOnSuccessListener { documents ->
+                servicesList.clear()
+                for (document in documents) {
+                    val service = document.toObject(HomeService::class.java)
+                    servicesList.add(service)
+                }
+                servicesAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                exception.printStackTrace()
+            }
+
 
         // handles map navigation
         val locationIntent = Intent(requireContext(), MapsActivity::class.java)

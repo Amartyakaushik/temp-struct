@@ -4,18 +4,23 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.R
+import com.example.worka1.ui.show_category_details.components.ServiceAdapter
+import com.example.worka1.ui.home.components.ServiceCategories
 
 class ShowCategoryDetailsActivity : AppCompatActivity() {
     lateinit var categoryId: String
     lateinit var subCategoryId: String
     lateinit var itemId: String
+    lateinit var servicesList: MutableList<ServiceCategories>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,21 +34,20 @@ class ShowCategoryDetailsActivity : AppCompatActivity() {
 
         val subCategoriesDetails =
             intent.getSerializableExtra("sub_categories_details") as? HashMap<*, *>
-        val textViewCategory = findViewById<TextView>(R.id.textView_category)
-        val textViewSubCategory = findViewById<TextView>(R.id.textView_sub_category)
-        val textViewItem = findViewById<TextView>(R.id.textView_item)
 
         if (subCategoriesDetails != null) {
             categoryId = subCategoriesDetails["category_id"].toString()
             subCategoryId = subCategoriesDetails["sub_category_id"].toString()
             itemId = subCategoriesDetails["item_id"].toString()
-            textViewCategory.text = "Category ID: $categoryId"
-            textViewSubCategory.text = "Sub-Category ID: $subCategoryId"
-            textViewItem.text = "Item ID: $itemId"
-        } else {
-            textViewCategory.text = "No category details available"
-            textViewSubCategory.text = ""
-            textViewItem.text = ""
+            servicesList =
+                intent.getSerializableExtra("sub_categories") as MutableList<ServiceCategories>
+
+            val servicesRecyclerView = findViewById<RecyclerView>(R.id.services_container)
+            val layoutManager = GridLayoutManager(this, 3)
+            servicesRecyclerView.layoutManager = layoutManager
+
+            val servicesAdapter = ServiceAdapter(servicesList)
+            servicesRecyclerView.adapter = servicesAdapter
         }
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -63,6 +67,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

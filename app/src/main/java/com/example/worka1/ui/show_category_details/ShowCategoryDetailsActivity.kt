@@ -23,7 +23,9 @@ import com.example.worka1.ui.show_category_details.components.OnServiceClickList
 import com.example.worka1.ui.show_category_details.components.Subcategory
 import com.example.worka1.ui.show_category_details.components.SubcategoryAdapter
 import com.example.worka1.ui.show_category_details.components.SubcategoryItem
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 
 class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener {
@@ -101,24 +103,25 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
             servicesRecyclerView.adapter = servicesAdapter
 
             nestedScrollView = findViewById(R.id.category_details_scrollview)
-
             subCategoriesList = mutableListOf()
             val sc = fb.collection("service_subcategories")
 
-            for (service in servicesList) {
+            val tasks = servicesList.map { service ->
                 sc.document(service.id).get()
-                    .addOnSuccessListener { documentSnapshot ->
-                        documentSnapshot.toObject(Subcategory::class.java)?.let { subcategory ->
-                            subCategoriesList.add(subcategory)
-                            runOnUiThread {
-                                subCategoriesRecyclerView.adapter?.notifyDataSetChanged()
-                            }
-                        }
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("FirestoreError", "Error fetching subcategory", e)
-                    }
             }
+
+            Tasks.whenAllSuccess<DocumentSnapshot>(tasks)
+                .addOnSuccessListener { documents ->
+                    val fetchedSubcategories = documents.mapNotNull { it.toObject(Subcategory::class.java) }
+                    subCategoriesList.addAll(fetchedSubcategories)
+
+                    runOnUiThread {
+                        subCategoriesRecyclerView.adapter?.notifyDataSetChanged()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FirestoreError", "Error fetching subcategories", e)
+                }
 
             subCategoriesRecyclerView = findViewById(R.id.subcategories_container)
             subCategoriesRecyclerView.setHasFixedSize(true)
@@ -147,17 +150,21 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
     }
 
     override fun onServiceClick(subcategoryId: String) {
-        val position = subCategoriesList.indexOfFirst { it.id == subcategoryId }
-        if (position != -1) {
-            subCategoriesRecyclerView.smoothScrollToPosition(position)
-            val viewHolder = subCategoriesRecyclerView.findViewHolderForAdapterPosition(position)
-            viewHolder?.itemView?.let { itemView ->
-                val targetY = itemView.top + subCategoriesRecyclerView.top
-                ObjectAnimator.ofInt(nestedScrollView, "scrollY", nestedScrollView.scrollY, targetY)
-                    .apply { duration = 800; start() }
+        subCategoriesRecyclerView.postDelayed({
+            val position = subCategoriesList.indexOfFirst { it.id == subcategoryId }
+            if (position != -1) {
+                subCategoriesRecyclerView.smoothScrollToPosition(position)
+                subCategoriesRecyclerView.postDelayed({
+                    val viewHolder = subCategoriesRecyclerView.findViewHolderForAdapterPosition(position)
+                    viewHolder?.itemView?.let { itemView ->
+                        val targetY = itemView.top + subCategoriesRecyclerView.top
+                        ObjectAnimator.ofInt(nestedScrollView, "scrollY", nestedScrollView.scrollY, targetY)
+                            .apply { duration = 800; start() }
+                    }
+                }, 500)
             }
-        }
-
+        }, 1000)
     }
+
 }
 

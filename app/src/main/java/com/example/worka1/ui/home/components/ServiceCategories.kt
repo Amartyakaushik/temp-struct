@@ -1,7 +1,12 @@
 package com.example.worka1.ui.home.components
 
-class ServiceCategories (
-    val id: String,
-    val name: String,
-    val image: Int
-)
+import com.google.firebase.firestore.PropertyName
+import java.io.Serializable
+
+data class ServiceCategories(
+    @get:PropertyName("id") @set:PropertyName("id") var id: String = "",
+    @get:PropertyName("name") @set:PropertyName("name") var name: String = "",
+    @get:PropertyName("image") @set:PropertyName("image") var image: String = "",
+) : Serializable {
+    constructor() : this("", "", "")
+}

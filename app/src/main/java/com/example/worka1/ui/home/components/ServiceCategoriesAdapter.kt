@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.worka1.R
 import com.example.worka1.ui.show_category_details.ShowCategoryDetailsActivity
 
@@ -21,7 +22,7 @@ class ServiceCategoriesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.home_services_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.subcategory_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -29,7 +30,9 @@ class ServiceCategoriesAdapter(
         val subCategory = subCategories?.get(position)
 
         if (subCategory != null) {
-            holder.imageView.setImageResource(subCategory.image)
+            Glide.with(holder.itemView.context)
+                .load(subCategory.image)
+                .into(holder.imageView)
             holder.textView.text = subCategory.name
 
             holder.itemView.setOnClickListener {
@@ -39,6 +42,7 @@ class ServiceCategoriesAdapter(
                 subCategoriesDetails["sub_category_id"] = subCategory.id
                 subCategoriesDetails["item_id"] = (-1).toString()
                 intent.putExtra("sub_categories_details", subCategoriesDetails)
+                intent.putExtra("sub_categories", subCategories?.let { it1 -> ArrayList(it1) })
                 holder.itemView.context.startActivity(intent)
             }
         }

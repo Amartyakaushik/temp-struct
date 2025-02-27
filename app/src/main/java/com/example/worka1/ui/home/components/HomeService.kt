@@ -1,9 +1,14 @@
 package com.example.worka1.ui.home.components
 
+import com.google.firebase.firestore.PropertyName
+import java.io.Serializable
+
 data class HomeService(
-    val id: String,
-    val name: String,
-    val image: Int,
-    val description: String?,
-    val subCategories: List<ServiceCategories>?
-)
+    @get:PropertyName("id") @set:PropertyName("id") var id: String = "",
+    @get:PropertyName("name") @set:PropertyName("name") var name: String = "",
+    @get:PropertyName("image") @set:PropertyName("image") var image: String = "",
+    @get:PropertyName("description") @set:PropertyName("description") var description: String = "",
+    @get:PropertyName("subCategories") @set:PropertyName("subCategories") var subCategories: List<ServiceCategories> = emptyList()
+) : Serializable {
+    constructor() : this("", "", "", "", emptyList())
+}

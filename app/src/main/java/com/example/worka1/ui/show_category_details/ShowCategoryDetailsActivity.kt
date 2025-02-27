@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
@@ -22,6 +23,8 @@ import com.example.worka1.ui.show_category_details.components.OnServiceClickList
 import com.example.worka1.ui.show_category_details.components.Subcategory
 import com.example.worka1.ui.show_category_details.components.SubcategoryAdapter
 import com.example.worka1.ui.show_category_details.components.SubcategoryItem
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener {
     private lateinit var categoryId: String
@@ -48,16 +51,46 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
         supportActionBar?.show()
         val subCategoriesDetails = intent.getSerializableExtra("sub_categories_details") as? HashMap<*, *>
+        val fb = Firebase.firestore
 
         if (subCategoriesDetails != null) {
             categoryId = subCategoriesDetails["category_id"].toString()
             subCategoryId = subCategoriesDetails["sub_category_id"].toString()
             itemId = subCategoriesDetails["item_id"].toString()
-            servicesList = intent.getSerializableExtra("sub_categories") as MutableList<ServiceCategories>
+
+            val subcategoriesSerialized = intent.getSerializableExtra("sub_categories")
+            if (subcategoriesSerialized != null) {
+                servicesList = subcategoriesSerialized as MutableList<ServiceCategories>
+            } else {
+                servicesList = mutableListOf()
+                fb.collection("services").document(categoryId)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        if (documentSnapshot.exists()) {
+                            val subCategoriesArray = documentSnapshot.get("subCategories") as? List<Map<String, Any>>
+                            if (subCategoriesArray != null) {
+                                for (item in subCategoriesArray) {
+                                    val service = ServiceCategories(
+                                        item["id"].toString(),
+                                        item["name"].toString(),
+                                        item["image"].toString()
+                                    )
+                                    servicesList.add(service)
+                                }
+                            }
+                        }
+                        runOnUiThread {
+                            servicesRecyclerView.adapter = ServiceAdapter(servicesList, this)
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("FirestoreError", "Error fetching subcategories", e)
+                    }
+            }
+
             supportActionBar?.title = categoryId
 
             servicesRecyclerView = findViewById(R.id.services_container)
@@ -98,7 +131,6 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
             subCategoriesRecyclerView.post {
                 onServiceClick(subCategoryId)
             }
-
         }
     }
 

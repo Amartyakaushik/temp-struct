@@ -28,7 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleY="0.8"
-                android:scaleType="centerInside"
                 android:scaleX="0.8"
             />
         </androidx.cardview.widget.CardView>

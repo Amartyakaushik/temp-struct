@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.worka1.R
 
 class VideoAdapter(private val context: Context, private val videoList: List<VideoItem>) :
@@ -26,12 +27,13 @@ class VideoAdapter(private val context: Context, private val videoList: List<Vid
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         val videoItem = videoList[position]
-
-        Glide.with(context)
+        Glide.with(holder.itemView.context)
             .asGif()
             .load(videoItem.videoUrl)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_add_to_cart_24)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.gifView)
-
         holder.titleTextView.text = videoItem.title
     }
 

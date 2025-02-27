@@ -1,70 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:padding="16dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
     android:background="@android:color/white">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/service_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Switchbox installation"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/service_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="★ 4.86 (18K reviews)"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/service_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="₹349"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="4dp" />
-
-        <TextView
-            android:id="@+id/service_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="30 mins"
-            android:textSize="14sp"
-            android:layout_marginTop="2dp"/>
-
-        <TextView
-            android:id="@+id/service_description"
-            android:layout_width="200sp"
-            android:layout_height="wrap_content"
-            android:text="Installed in specified area for new power outlet"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp" />
-        <TextView
-            android:id="@+id/text_view_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View details"
-            android:textColor="@color/design_default_color_primary"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="horizontal"
+        android:paddingVertical="5sp"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/service_title"
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:text="Switchbox installation"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/service_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="★ 4.86 (18K reviews)"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/service_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹349"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="4dp" />
+                <TextView
+                    android:id="@+id/middle_dot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" • "
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/service_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30 mins"
+                    android:textSize="14sp"
+                    android:layout_marginTop="2dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/service_description"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:text="Installed in specified area for new power outlet"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp" />
+                <TextView
+                    android:id="@+id/text_view_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View details"
+                    android:textColor="@color/design_default_color_primary"
+                    android:layout_marginTop="10sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="140sp"
+        android:layout_height="140sp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
@@ -86,16 +116,71 @@
         <Button
             android:id="@+id/add_button_normal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:text="Add"
-            android:background="@drawable/smooth_rect_border"
+            android:textColor="@color/design_default_color_primary"
+            app:backgroundTint="@null"
+            android:background="@drawable/add_button_shape"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            android:layout_marginTop="120sp"
+            app:layout_constraintVertical_bias="1" />
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="40sp"                android:orientation="horizontal"
+                android:background="@drawable/add_button_shape"
+                android:padding="4dp"
+                android:id="@+id/special_button"
+                app:backgroundTint="@null"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="120dp"
+                android:visibility="gone"
+                app:layout_constraintVertical_bias="1" >
+
+                <ImageButton
+                    android:id="@+id/btn_decrease"
+                    android:layout_width="25dp"
+                    android:scaleX="0.8"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_minus"
+                    android:contentDescription="Decrease Count" />
+
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btn_increase"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_plus"
+                    android:contentDescription="Increase Count" />
+
+            </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#888C8C8C"
+        android:layout_marginTop="8dp" />
 </LinearLayout>

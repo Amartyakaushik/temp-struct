@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.worka1.R
 import com.example.worka1.ui.show_category_details.ShowCategoryDetailsActivity
 
@@ -32,6 +33,10 @@ class ServiceCategoriesAdapter(
         if (subCategory != null) {
             Glide.with(holder.itemView.context)
                 .load(subCategory.image)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_add_to_cart_24)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .dontAnimate()
                 .into(holder.imageView)
             holder.textView.text = subCategory.name
 

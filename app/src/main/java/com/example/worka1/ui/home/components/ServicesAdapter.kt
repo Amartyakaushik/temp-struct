@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.worka1.ui.home.components.HomeService
 import com.example.worka1.ui.home.components.ServiceCategoriesAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -29,6 +30,10 @@ class ServicesAdapter(private val servicesList: List<HomeService>) : RecyclerVie
         val service = servicesList[position]
         Glide.with(holder.itemView.context)
             .load(service.image)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_add_to_cart_24)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .dontAnimate()
             .into(holder.imageView)
         holder.textView.text = service.name
 
@@ -53,6 +58,10 @@ class ServicesAdapter(private val servicesList: List<HomeService>) : RecyclerVie
         serviceSubCategories.adapter = ServiceCategoriesAdapter(service.id, service.subCategories)
         Glide.with(view.context)
             .load(service.image)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_add_to_cart_24)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .dontAnimate()
             .into(serviceImage)
         serviceTitle.text = service.name
         serviceDescription.text = service.description

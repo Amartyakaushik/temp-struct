@@ -61,7 +61,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
             supportActionBar?.title = categoryId
 
             servicesRecyclerView = findViewById(R.id.services_container)
-            val layoutManager = GridLayoutManager(this, 3)
+            val layoutManager = GridLayoutManager(this, 4)
             servicesRecyclerView.layoutManager = layoutManager
             val servicesAdapter = ServiceAdapter(servicesList, this)
             servicesRecyclerView.adapter = servicesAdapter
@@ -69,26 +69,22 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
             nestedScrollView = findViewById(R.id.category_details_scrollview)
 
             subCategoriesList = listOf(
-                Subcategory("clothes_hanger","clothes hanger 1", listOf(
-                    SubcategoryItem("Item 1", 4.5f, 100, 100, 60, "Description 1", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 2", 4.5f, 100, 100, 60, "Description 2", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 3", 4.5f, 100, 100, 60, "Description 3", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 4", 4.5f, 100, 100, 60, "Description 4", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 5", 4.5f, 100, 100, 60, "Description 5", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 6", 4.5f, 100, 100, 60, "Description 6", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 7", 4.5f, 100, 100, 60, "Description 7", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 8", 4.5f, 100, 100, 60, "Description 8", "https://picsum.photos/200/300"),
+                Subcategory("clothes_hanger","Clothes hanger", listOf(
+                    SubcategoryItem("ceiling_mounted_hanger_installation", "Ceiling-mounted hanger installation", 4.84f, 15000, 100, "1 hour 30 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1714032579918-778d26.jpeg"),
+                    SubcategoryItem("wall_door_hanger_installation", "Wall/door hanger installation", 4.83f, 7000, 199, "30 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1714032420379-ae5eb1.jpeg"),
                 )),
-                Subcategory("bed","clothes hanger 2", listOf(
-                    SubcategoryItem("Item 1", 4.5f, 100, 100, 60, "Description 1", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 2", 4.5f, 100, 100, 60, "Description 2", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 3", 4.5f, 100, 100, 60, "Description 3", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 4", 4.5f, 100, 100, 60, "Description 4", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 5", 4.5f, 100, 100, 60, "Description 5", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 6", 4.5f, 100, 100, 60, "Description 6", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 7", 4.5f, 100, 100, 60, "Description 7", "https://picsum.photos/200/300"),
-                    SubcategoryItem("Item 8", 4.5f, 100, 100, 60, "Description 8", "https://picsum.photos/200/300"),
+                Subcategory("bed","Bed", listOf(
+                    SubcategoryItem("bed_support_repair", "Bed support repair", 4.86f, 18000, 459, "60 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1714032585514-9362d7.jpeg"),
+                    SubcategoryItem("bed_legs_headboard_repair", "Bed legs/Headboard repair", 4.85f, 17000, 299, "60 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726807500155-968bcb.jpeg"),
                 )),
+                Subcategory("cupboard_drawer", "Cupboard & drawer", listOf(
+                    SubcategoryItem("cupboard_hinge_installation_upto_2", "Cupboard hinge installation (upto 2)", 4.84f, 61000, 199, "60 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1714032573487-455006.jpeg"),
+                    SubcategoryItem("channel_repair_one_set", "Channel repair (one set)", 4.85f, 36000, 178, "30 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1714032515421-0c373e.jpeg"),
+                    SubcategoryItem("drawer_channel_replacement_one_set", "Drawer/Channel replacement (one set)", 4.85f, 16000, 239, "30 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1714032512040-b76f31.jpeg"),
+                    SubcategoryItem("cupboard_handle_installation_replacement", "Cupboard handle installation/replacement", 4.84f, 16000, 119, "30 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726806353954-1bfeb1.jpeg"),
+                    SubcategoryItem("cupboard_lock_installation", "Cupboard lock installation", 4.81f, 4000, 449, "30 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726806570495-e264db.jpeg"),
+                    SubcategoryItem("cupboard_lock_repair", "Cupboard lock repair", 4.83f, 6000, 189, "30 mins", "", "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_3,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726806779316-a69960.jpeg")
+                ))
             )
             subCategoriesRecyclerView = findViewById(R.id.subcategories_container)
             subCategoriesRecyclerView.setHasFixedSize(true)

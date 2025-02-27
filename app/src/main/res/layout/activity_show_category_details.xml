@@ -24,15 +24,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingVertical="10dp">
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/services_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_marginVertical="10dp"
+                android:layout_marginBottom="10dp"
                 android:paddingHorizontal="15dp"
             />
             <androidx.recyclerview.widget.RecyclerView

@@ -19,6 +19,7 @@ import com.example.worka1.ui.cart.components.ServiceItem
 import com.example.worka1.utils.formatNumber
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.example.worka1.ui.show_category_details.ShowCategoryDetailsActivity
 
 class SubcategoryItemAdapter(
     private val items: List<SubcategoryItem>,
@@ -115,6 +116,7 @@ class SubcategoryItemAdapter(
             holder.specialButton.visibility = View.GONE
             holder.addButtonNormal.visibility = View.VISIBLE
         }
+        cartViewModel.fetchCartTotal(userId)
     }
 
     private fun handleItems(id: String, itemName: String, count: Int) {

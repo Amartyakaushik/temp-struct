@@ -17,7 +17,6 @@ class CartViewModel : ViewModel() {
     private val _itemCount = MutableLiveData<Map<String, Int>>()
     val itemCount: LiveData<Map<String, Int>> get() = _itemCount
 
-    // Fetch total price
     fun fetchCartTotal(userId: String) {
         viewModelScope.launch {
             val total = calculateCartTotal(userId)

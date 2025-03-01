@@ -43,6 +43,8 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
     private val fb = Firebase.firestore
     private val userId = "DH8j7CdzJHioSBFlrPav" // test user id
     private lateinit var cartViewModel: CartViewModel
+    private lateinit var floatingCartLayout :View
+    private lateinit var cartTotalTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -63,20 +65,19 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
             itemId = subCategoriesDetails["item_id"].toString()
             initializeViews()
 
-            val floatingCartLayout = findViewById<View>(R.id.floating_cart_layout)
-
+            floatingCartLayout = findViewById(R.id.floating_cart_layout)
+            cartTotalTextView = findViewById(R.id.cart_total_text)
+            findViewById<Button>(R.id.viewcart).setOnClickListener {
+                startActivity(Intent(this, CartActivity::class.java))
+            }
             cartViewModel.cartTotal.observe(this) { total ->
                 if (total > 0) {
                     floatingCartLayout.visibility = View.VISIBLE
-                    val cartTotalTextView = findViewById<TextView>(R.id.cart_total_text)
                     cartTotalTextView.text = "₹$total"
                 } else {
                     floatingCartLayout.visibility = View.GONE
                 }
             }
-
-            cartViewModel.fetchCartTotal(userId)
-
 
             cartViewModel.fetchCartTotal(userId)
             supportActionBar?.title = categoryId
@@ -156,6 +157,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
                 Log.e("FirestoreError", "Error fetching subcategories", e)
             }
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

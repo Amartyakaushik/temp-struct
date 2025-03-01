@@ -1,5 +1,6 @@
 package com.example.worka1.ui.show_category_details
 
+import CartViewModel
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +37,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
     private lateinit var subCategoriesRecyclerView: RecyclerView
     private val fb = Firebase.firestore
     private val userId = "DH8j7CdzJHioSBFlrPav" // test user id
+    private lateinit var cartViewModel: CartViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -78,7 +81,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
 
     private fun initializeViews() {
         nestedScrollView = findViewById(R.id.category_details_scrollview)
-
+        cartViewModel = ViewModelProvider(this)[CartViewModel::class.java]
         servicesList = mutableListOf()
         servicesRecyclerView = findViewById(R.id.services_container)
         servicesRecyclerView.layoutManager = GridLayoutManager(this, 4)
@@ -87,7 +90,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
         subCategoriesList = mutableListOf()
         subCategoriesRecyclerView = findViewById(R.id.subcategories_container)
         subCategoriesRecyclerView.layoutManager = LinearLayoutManager(this)
-        subCategoriesRecyclerView.adapter = SubcategoryAdapter(subCategoriesList, userId, categoryId)
+        subCategoriesRecyclerView.adapter = SubcategoryAdapter(subCategoriesList, userId, categoryId, cartViewModel, this)
     }
 
     private fun fetchServices(callback: (List<ServiceCategories>) -> Unit) {

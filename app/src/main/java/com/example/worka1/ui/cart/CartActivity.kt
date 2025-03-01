@@ -71,17 +71,32 @@ class CartActivity : AppCompatActivity() {
 
             if (doc.exists()) {
                 val data = doc.data ?: return@withContext list
+                val service_subcategories = db
+                    .collection("service_subcategories")
 
                 for ((serviceId, services) in data) {
                     if (services is Map<*, *>) {
+                        val serviceDetails = service_subcategories.document(serviceId).get().await()
                         val svcItemList = mutableListOf<ServiceItem>()
                         val categoryId: String? = services["category_id"] as? String
+                        var total = 0
+                        var image_url = ""
                         for ((_, serviceItems) in services) {
                             if (serviceItems is Map<*, *>) {
                                 val id = serviceItems["id"] as? String ?: "unknown_id"
                                 val name = serviceItems["service_name"] as? String ?: "Unknown Service"
                                 val count = (serviceItems["items_count"] as? Long)?.toInt() ?: 0
                                 val svcItem = ServiceItem(id, name, count)
+                                val items = serviceDetails.get("items") as? List<Map<String, Any>>
+                                if (items != null) {
+                                    image_url = items[0]["imageUrl"].toString()
+                                    for (item in items) {
+                                        if(item["id"] == id){
+                                            total += item["price"].toString().toInt() * count
+                                            break
+                                        }
+                                    }
+                                }
                                 svcItemList.add(svcItem)
                             }
                         }
@@ -89,10 +104,10 @@ class CartActivity : AppCompatActivity() {
                         val cartItem = CartItem(
                             categoryId ?: "unknown_category",
                             serviceId.toString(),
-                            "",
-                            "",
+                            serviceDetails.get("name").toString(),
+                            image_url,
                             svcItemList.size,
-                            1000,
+                            total,
                             svcItemList
                         )
                         list.add(cartItem)

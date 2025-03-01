@@ -2,9 +2,13 @@ package com.example.worka1.ui.show_category_details
 
 import CartViewModel
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.R
+import com.example.worka1.ui.cart.CartActivity
 import com.example.worka1.ui.show_category_details.components.ServiceAdapter
 import com.example.worka1.ui.home.components.ServiceCategories
 import com.example.worka1.ui.show_category_details.components.OnServiceClickListener
@@ -58,6 +63,22 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
             itemId = subCategoriesDetails["item_id"].toString()
             initializeViews()
 
+            val floatingCartLayout = findViewById<View>(R.id.floating_cart_layout)
+
+            cartViewModel.cartTotal.observe(this) { total ->
+                if (total > 0) {
+                    floatingCartLayout.visibility = View.VISIBLE
+                    val cartTotalTextView = findViewById<TextView>(R.id.cart_total_text)
+                    cartTotalTextView.text = "₹$total"
+                } else {
+                    floatingCartLayout.visibility = View.GONE
+                }
+            }
+
+            cartViewModel.fetchCartTotal(userId)
+
+
+            cartViewModel.fetchCartTotal(userId)
             supportActionBar?.title = categoryId
 
             fetchServices { services ->

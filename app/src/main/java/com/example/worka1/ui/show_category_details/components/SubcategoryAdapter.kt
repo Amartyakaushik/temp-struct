@@ -1,15 +1,23 @@
 package com.example.worka1.ui.show_category_details.components
 
+import CartViewModel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.R
 
 
-class SubcategoryAdapter(private val subCategoriesList: List<Subcategory>) : RecyclerView.Adapter<SubcategoryAdapter.ViewHolder>() {
+class SubcategoryAdapter(
+    private val subCategoriesList: List<Subcategory>,
+    private val userId: String,
+    private val categoryId: String,
+    val cartViewModel: CartViewModel,
+    private val lifecycleOwner: LifecycleOwner
+) : RecyclerView.Adapter<SubcategoryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val subcategory_name_container: TextView = view.findViewById(R.id.subcategory_name)
@@ -30,7 +38,7 @@ class SubcategoryAdapter(private val subCategoriesList: List<Subcategory>) : Rec
                 holder.itemView.context, LinearLayoutManager.VERTICAL, false
             )
         }
-        val adapter = SubcategoryItemAdapter(subcategory.items)
+        val adapter = SubcategoryItemAdapter(subcategory.items, subcategory.id, userId, categoryId, cartViewModel, lifecycleOwner)
         holder.items_container.adapter = adapter
     }
 

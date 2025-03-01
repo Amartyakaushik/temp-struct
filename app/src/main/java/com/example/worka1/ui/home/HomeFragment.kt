@@ -201,7 +201,7 @@ class HomeFragment : Fragment() {
         // sets new services horizontal slider
         val newSubCategoriesList = listOf(
             SubCategoryItem("1", "electrician", "switch_socket", "Smart Lights", R.drawable.plumber, 4.5f, 120, "₹1,299"),
-            SubCategoryItem("2", "carpenter", "wall_ceiling_light", "Roofing", R.drawable.carpenter, 4.2f, 85, "₹2,499"),
+            SubCategoryItem("2", "carpenter", "drill_hang", "Roofing", R.drawable.carpenter, 4.2f, 85, "₹2,499"),
             SubCategoryItem("3", "cleaner", "bathroom_fittings", "Bathroom Cleaning", R.drawable.cleaner, 4.8f, 230, "₹3,799"),
             SubCategoryItem("4", "plumber", "drainage_system", "Drainage System", R.drawable.plumber, 4.6f, 150, "₹4,999"),
             SubCategoryItem("5", "painter", "interior_painting", "Interior Painting", R.drawable.painter, 4.3f, 95, "₹899")

@@ -13,9 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.worka1.R
+import com.example.worka1.ui.cart.CartActivity
+import com.example.worka1.ui.cart.components.ServiceItem
 import com.example.worka1.utils.formatNumber
 
-class SubcategoryItemAdapter(private val items: List<SubcategoryItem>): RecyclerView.Adapter<SubcategoryItemAdapter.ViewHolder>() {
+class SubcategoryItemAdapter(
+    private val items: List<SubcategoryItem>,
+    private val subcategory_id: String,
+    private val userId: String,
+    private val categoryId: String
+):
+    RecyclerView.Adapter<SubcategoryItemAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val serviceTitle: TextView = view.findViewById(R.id.service_title)
         val serviceRating: TextView = view.findViewById(R.id.service_rating)
@@ -64,32 +72,42 @@ class SubcategoryItemAdapter(private val items: List<SubcategoryItem>): Recycler
             holder.addButtonNormal.visibility = View.GONE
             holder.special_button.visibility = View.VISIBLE
             holder.tvCount.text = count.toString()
-            handleItems(item.id, count)
+            handleItems(item.id, item.itemName, count)
         }
 
         holder.btnIncrease.setOnClickListener {
             count++
             holder.tvCount.text = count.toString()
-            handleItems(item.id, count)
+            handleItems(item.id, item.itemName, count)
         }
 
         holder.btnDecrease.setOnClickListener {
             if (count > 1) {
                 count--
                 holder.tvCount.text = count.toString()
+                handleItems(item.id, item.itemName, count)
             } else {
                 holder.special_button.visibility = View.GONE
                 holder.addButtonNormal.visibility = View.VISIBLE
                 count = 1
+                Log.d("CartActivity", "Item ${item.id}")
+                CartActivity().removeFromFirebase(item.id, subcategory_id, userId)
             }
-            handleItems(item.id, count)
         }
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
-    private fun handleItems(id: String, count: Int) {
-        Log.d("handleItems", "id: $id, count: $count")
+
+    private fun handleItems(id: String, itemName:String, count: Int) {
+        CartActivity()
+            .addToFirebase(
+                subcategory_id, mutableListOf(
+                    ServiceItem(id, itemName, count),
+                ),
+                userId,
+                categoryId
+            )
     }
 }

@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.R
 
 
-class SubcategoryAdapter(private val subCategoriesList: List<Subcategory>) : RecyclerView.Adapter<SubcategoryAdapter.ViewHolder>() {
+class SubcategoryAdapter(
+    private val subCategoriesList: List<Subcategory>,
+    private val userId: String,
+    private val categoryId: String
+) : RecyclerView.Adapter<SubcategoryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val subcategory_name_container: TextView = view.findViewById(R.id.subcategory_name)
@@ -30,7 +34,7 @@ class SubcategoryAdapter(private val subCategoriesList: List<Subcategory>) : Rec
                 holder.itemView.context, LinearLayoutManager.VERTICAL, false
             )
         }
-        val adapter = SubcategoryItemAdapter(subcategory.items)
+        val adapter = SubcategoryItemAdapter(subcategory.items, subcategory.id, userId, categoryId)
         holder.items_container.adapter = adapter
     }
 

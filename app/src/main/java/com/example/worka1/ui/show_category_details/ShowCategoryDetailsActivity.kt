@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -35,7 +34,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
     private lateinit var servicesRecyclerView: RecyclerView
     private lateinit var subCategoriesRecyclerView: RecyclerView
     private val fb = Firebase.firestore
-
+    private val userId = "DH8j7CdzJHioSBFlrPav" // test user id
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,13 +47,13 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
         }
 
         setupToolbar()
-        initializeViews()
 
         val subCategoriesDetails = intent.getSerializableExtra("sub_categories_details") as? HashMap<*, *>
         if (subCategoriesDetails != null) {
             categoryId = subCategoriesDetails["category_id"].toString()
             subCategoryId = subCategoriesDetails["sub_category_id"].toString()
             itemId = subCategoriesDetails["item_id"].toString()
+            initializeViews()
 
             supportActionBar?.title = categoryId
 
@@ -88,7 +87,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
         subCategoriesList = mutableListOf()
         subCategoriesRecyclerView = findViewById(R.id.subcategories_container)
         subCategoriesRecyclerView.layoutManager = LinearLayoutManager(this)
-        subCategoriesRecyclerView.adapter = SubcategoryAdapter(subCategoriesList)
+        subCategoriesRecyclerView.adapter = SubcategoryAdapter(subCategoriesList, userId, categoryId)
     }
 
     private fun fetchServices(callback: (List<ServiceCategories>) -> Unit) {

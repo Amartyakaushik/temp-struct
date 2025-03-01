@@ -1,6 +1,7 @@
 package com.example.worka1.ui.cart.components
 
 class CartItem (
+    val category_id: String = "",
     val service_id: String = "",
     val service_name: String = "",
     val service_image: String = "",

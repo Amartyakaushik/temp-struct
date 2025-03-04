@@ -147,4 +147,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="onBoardingText1">We Provide Professional \nHome services at a very\n friendly price</string>
+    <string name="onBoardingText2"><![CDATA[Easy Service booking & \n Scheduling]]></string>
 </resources>

@@ -16,7 +16,7 @@
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
         android:contentDescription="nav_back"
-        android:src="@drawable/img_4"
+        android:src="@drawable/ic_nav_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white"

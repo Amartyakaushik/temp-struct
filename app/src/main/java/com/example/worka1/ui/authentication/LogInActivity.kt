@@ -1,11 +1,8 @@
 package com.example.worka1.ui.authentication
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.worka1.R
 import com.example.worka1.databinding.ActivityLogInBinding
 
 class LogInActivity : AppCompatActivity() {
@@ -15,6 +12,10 @@ class LogInActivity : AppCompatActivity() {
         binding = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val signUpBtn = binding.signUpBtn
+        signUpBtn.setOnClickListener{
+            startActivity(Intent(this, SignUpActivity::class.java))
+        }
 
     }
 }

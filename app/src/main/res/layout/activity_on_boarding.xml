@@ -6,19 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.splashScreen.onBoardingActivity">
+    tools:context=".ui.splashScreen.OnBoardingActivity">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSkip"
         android:layout_width="75dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="26dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/skip_btn_layout"
         android:backgroundTint="@null"
         android:fontFamily="@font/inter_bold"
         android:text="Skip"
-        android:textColor="#283891"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +29,7 @@
         android:id="@+id/image_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@+id/buttonSkip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -36,7 +38,7 @@
             android:layout_width="328dp"
             android:layout_height="328dp"
             android:layout_gravity="center"
-            android:backgroundTint="#F2F4FF"
+            android:backgroundTint="#D9D9DF"
             app:cardCornerRadius="185dp"
             app:cardElevation="5dp"
             android:layout_marginHorizontal="30dp">
@@ -55,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"
+                android:contentDescription="@string/home_clean_img"
                 android:src="@drawable/home_clean"
                 android:scaleType="centerCrop"/>
 
@@ -94,8 +97,8 @@
             android:id="@+id/buttonNext"
             android:layout_width="51dp"
             android:layout_height="51dp"
-            android:background="#283891"
-            android:contentDescription="next_btn"
+            android:background="#FC10101C"
+            android:contentDescription="@string/next_btn"
             android:src="@drawable/ic_arrow_right"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

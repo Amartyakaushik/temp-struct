@@ -149,4 +149,11 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="onBoardingText1">We Provide Professional \nHome services at a very\n friendly price</string>
     <string name="onBoardingText2"><![CDATA[Easy Service booking & \n Scheduling]]></string>
+    <string name="login">Login</string>
+    <string name="app_logo">app_logo</string>
+    <string name="worka1_services">workA1 Services</string>
+    <string name="skip">Skip</string>
+    <string name="next_btn">next_btn</string>
+    <string name="home_clean_img">home_clean_img</string>
+    <string name="onBoardingScreen3Description"><![CDATA[Get Beauty parlor at your home & other Personal Grooming needs]]></string>
 </resources>

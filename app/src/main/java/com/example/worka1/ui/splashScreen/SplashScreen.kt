@@ -26,7 +26,7 @@ class SplashScreen : AppCompatActivity() {
                 startActivity(Intent(this@SplashScreen, MainActivity::class.java))
                 finish()
             }else{
-                startActivity(Intent(this@SplashScreen, onBoardingActivity::class.java))
+                startActivity(Intent(this@SplashScreen, OnBoardingActivity::class.java))
                 finish()
             }
         }

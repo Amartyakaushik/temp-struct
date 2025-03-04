@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_screen_background"
+    android:background="@color/white"
     tools:context=".ui.splashScreen.SplashScreen">
 
     <ImageView
@@ -14,7 +14,7 @@
         android:layout_height="161dp"
         android:src="@drawable/app_logo"
         android:textAlignment="viewEnd"
-        android:contentDescription="app_logo"
+        android:contentDescription="@string/app_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,9 +27,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/squada_one"
         android:gravity="center"
-        android:text="workA1 Services"
-        android:textColor="@color/white"
-        android:textSize="38dp"
+        android:text="@string/worka1_services"
+        android:textColor="@color/black"
+        android:textSize="38sp"
         app:layout_constraintEnd_toEndOf="@id/app_logo"
         app:layout_constraintStart_toStartOf="@id/app_logo"
         app:layout_constraintTop_toBottomOf="@id/app_logo"/>

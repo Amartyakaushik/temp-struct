@@ -24,8 +24,7 @@ class OnBoardingActivity : AppCompatActivity() {
             // Set the onboarding completion flag to true when the user skips the onBoarding screen
             val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
             sharedPreferences.edit().putBoolean("is_onboarding_completed", true).apply()
-            startActivity(Intent(this, LogInActivity::class.java))
-            finish()
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
     }

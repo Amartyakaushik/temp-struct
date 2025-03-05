@@ -8,17 +8,16 @@
 
     android:padding="16dp">
 
-    <!-- Error Image -->
     <ImageView
         android:id="@+id/error_image"
         android:layout_width="70dp"
         android:layout_height="60dp"
-        app:backgroundTint="#F0ECEC"
-        android:background="@drawable/error_button_shape"
-        android:src="@drawable/ic_error"
-    android:contentDescription="Error Image" />
+        app:backgroundTint="#F2F1F1"
 
-    <!-- Error Message -->
+        android:background="@drawable/add_to_card_shape"
+        android:src="@drawable/ic_error"
+        android:contentDescription="Error Image" />
+
     <TextView
         android:id="@+id/error_message"
         android:layout_width="wrap_content"
@@ -29,7 +28,6 @@
         android:textStyle="bold"
         android:textColor="#211D1D" />
 
-    <!-- Check your internet and try again -->
     <TextView
         android:id="@+id/check_internet_message"
         android:layout_width="wrap_content"
@@ -38,13 +36,13 @@
                                later"
         android:textSize="16sp"
         android:layout_marginTop="8dp"
-        android:textColor="#AFADAD" />
+        android:textColor="#A9A9A9" />
 
     <Button
         android:id="@+id/add_button_normal"
         android:layout_width="wrap_content"
         android:layout_height="50sp"
-        android:text="Retry"
+        android:text=" Retry "
         android:textColor="@color/design_default_color_primary"
         app:backgroundTint="@null"
         android:background="@drawable/error_button_shape"

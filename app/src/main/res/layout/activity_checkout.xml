@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent"
+        android:background="@color/white"
         app:titleTextColor="@android:color/black"/>
 
     <androidx.core.widget.NestedScrollView
@@ -25,11 +25,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- First RecyclerView (For Items List) -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_items"
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:nestedScrollingEnabled="false"/>
 
             <LinearLayout
@@ -37,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp"
+                android:background="@color/white"
+                android:layout_marginBottom="10dp"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -78,17 +81,32 @@
                     android:textSize="14sp"
                     android:padding="8dp"/>
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_subcategories"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:background="@color/white"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Frequently added together"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:padding="10dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_fat_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_marginBottom="10dp"
                 android:padding="16dp">
 
                 <TextView

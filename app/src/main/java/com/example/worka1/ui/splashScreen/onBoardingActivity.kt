@@ -24,7 +24,10 @@ class OnBoardingActivity : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
             sharedPreferences.edit().putBoolean("is_onboarding_completed", true).apply()
             startActivity(Intent(this, MainActivity::class.java))
+<<<<<<< HEAD
             finish()
+=======
+>>>>>>> 8ed2d363b3236e59012ee67c29038391511afd2e
         }
 
     }

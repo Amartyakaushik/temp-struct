@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/error_image"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        app:backgroundTint="#F2F1F1"
+
+        android:background="@drawable/add_to_card_shape"
+        android:src="@drawable/ic_error"
+        android:contentDescription="Error Image" />
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Something went wrong"
+        android:textSize="24sp"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:textColor="#211D1D" />
+
+    <TextView
+        android:id="@+id/check_internet_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please check your internet and try again \n
+                               later"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:textColor="#A9A9A9" />
+
+    <Button
+        android:id="@+id/add_button_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:text=" Retry "
+        android:textColor="@color/design_default_color_primary"
+        app:backgroundTint="@null"
+        android:background="@drawable/error_button_shape"
+        android:layout_marginTop="10sp"
+        app:layout_constraintVertical_bias="1" />
+
+</LinearLayout>

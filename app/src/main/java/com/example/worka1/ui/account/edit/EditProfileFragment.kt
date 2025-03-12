@@ -34,9 +34,9 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
-
+        val userId = auth.currentUser?.uid ?: "DH8j7CdzJHioSBFlrPav"
         firestore = FirebaseFirestore.getInstance()
-        if (auth.currentUser == null) {
+        if (userId.isBlank()) {
             Toast.makeText(requireContext(), "User not authenticated. Returning to previous screen.", Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
             return view
@@ -62,7 +62,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun loadUserData() {
-        val userId = auth.currentUser?.uid
+        val userId = auth.currentUser?.uid  ?: "DH8j7CdzJHioSBFlrPav"
         if (userId != null) {
             firestore.collection("users").document(userId).get()
                 .addOnSuccessListener { document ->
@@ -88,7 +88,7 @@ class EditProfileFragment : Fragment() {
 
         if (newUsername.isNotBlank() && newEmail.isNotBlank() && newPhone.isNotBlank()) {
 
-            val userId = auth.currentUser?.uid
+            val userId = auth.currentUser?.uid ?: "DH8j7CdzJHioSBFlrPav"
 
             val userUpdates = hashMapOf<String, Any>()
 

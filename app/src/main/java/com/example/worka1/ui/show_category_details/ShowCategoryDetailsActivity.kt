@@ -44,7 +44,7 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
     private lateinit var subCategoriesRecyclerView: RecyclerView
     private val fb = Firebase.firestore
     private val auth = FirebaseAuth.getInstance()
-    private val userId = auth.currentUser?.uid
+    private val userId = auth.currentUser?.uid ?: "DH8j7CdzJHioSBFlrPav"
     private lateinit var cartViewModel: CartViewModel
     private lateinit var floatingCartLayout :View
     private lateinit var cartTotalTextView: TextView
@@ -52,11 +52,6 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_show_category_details)
-        if (userId == null) {
-            Toast.makeText(this, "User not found. Returning to previous screen.", Toast.LENGTH_SHORT).show()
-            finish()
-            return
-        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

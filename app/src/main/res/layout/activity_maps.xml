@@ -5,31 +5,55 @@
     android:layout_height="match_parent"
     tools:context=".ui.location_manager.MapsActivity">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search for a place"
+        android:layout_margin="16dp"/>
 
-    <!-- Search Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/searchButton"
+    <TextView
+        android:id="@+id/historyLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_search"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/purple_700"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"/>
+        android:text="Search History"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/searchView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"/>
 
-    <!-- My Location Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/myLocationButton"
+    <ListView
+        android:id="@+id/historyListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/historyLabel"
+        android:layout_marginBottom="8dp"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_below="@id/historyListView"
+        android:layout_marginVertical="8dp"/>
+
+    <TextView
+        android:id="@+id/searchResultsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_my_location"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/teal_700"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"/>
+        android:text="Search Results"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/divider"
+        android:layout_marginStart="16dp"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/searchResultsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchResultsLabel"
+        android:visibility="gone"/>
 </RelativeLayout>

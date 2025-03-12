@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SearchView
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -36,7 +38,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val db = Firebase.firestore
-
+    private val locationActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        updateLocationUI()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,9 +51,14 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateLocationUI()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        updateLocationUI()
         val loadingComponent = view.findViewById<ConstraintLayout>(R.id.loading_component)
         val servicesRecyclerView = binding.root.findViewById<RecyclerView>(R.id.services_container)
 
@@ -82,10 +91,10 @@ class HomeFragment : Fragment() {
                 exception.printStackTrace()
             }
 
-        val locationIntent = Intent(requireContext(), MapsActivity::class.java)
         val locationContainer = view.findViewById<LinearLayout>(R.id.location_container_home)
         locationContainer.findViewById<LinearLayout>(R.id.locationLayout).setOnClickListener {
-            startActivity(locationIntent)
+            val locationIntent = Intent(requireContext(), MapsActivity::class.java)
+            locationActivityLauncher.launch(locationIntent)
         }
 
         val cartIntent = Intent(requireContext(), CartActivity::class.java)
@@ -184,5 +193,19 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    private fun updateLocationUI() {
+        val sharedPreferences = requireContext().getSharedPreferences("search_history", AppCompatActivity.MODE_PRIVATE)
+        val lastLocation = sharedPreferences.getString("last_selected_location", "Unknown, Unknown City, Unknown State") ?: "Unknown, Unknown City, Unknown State"
+
+        val locationParts = lastLocation.split(", ")
+        val placeName = locationParts.getOrNull(0) ?: "Unknown Place"
+        val cityState = locationParts.drop(1).joinToString(", ").ifEmpty { "Unknown City, Unknown State" }
+
+        val locationTitle = view?.findViewById<TextView>(R.id.locationTitle)
+        val locationSubtitle = view?.findViewById<TextView>(R.id.locationSubtitle)
+
+        locationTitle?.text = placeName
+        locationSubtitle?.text = cityState
     }
 }

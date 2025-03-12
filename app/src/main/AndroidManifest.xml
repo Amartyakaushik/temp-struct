@@ -80,9 +80,6 @@
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".ui.location_manager.LocationManagerActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.home.components.LocationContainerActivity"
             android:exported="false" />
         <activity

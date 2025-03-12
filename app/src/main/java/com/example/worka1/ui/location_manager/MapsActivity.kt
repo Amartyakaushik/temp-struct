@@ -33,7 +33,7 @@ class MapsActivity : AppCompatActivity() {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Places.initialize(applicationContext, BuildConfig.PLACES_API_KEY)
+//        Places.initialize(applicationContext, BuildConfig.PLACES_API_KEY)
         placesClient = Places.createClient(this)
 
         sharedPreferences = getSharedPreferences("search_history", MODE_PRIVATE)

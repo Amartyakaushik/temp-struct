@@ -1,5 +1,6 @@
 package com.example.worka1.ui.account
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +12,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.worka1.R
 import com.example.worka1.databinding.FragmentAccountBinding
+import com.example.worka1.ui.authentication.LogInActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 
 class AccountFragment : Fragment() {
 
     private var _binding: FragmentAccountBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth : FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     companion object {
         fun newInstance() = AccountFragment()
@@ -33,7 +41,6 @@ class AccountFragment : Fragment() {
     ): View? {
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         val view = binding.root
-
         val editButton = binding.editprofile
         editButton.setOnClickListener {
             findNavController().navigate(R.id.navigation_edit)
@@ -41,7 +48,12 @@ class AccountFragment : Fragment() {
         val myBookingCard = binding.cardMyBookings
         val paymentsCard = binding.cardPayments
         val helpSupportCard = binding.cardHelpSupport
-
+        val signOutBtn = binding.signOutBtn
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+        signOutBtn.setOnClickListener {
+            signOut() // sign out the user
+        }
         myBookingCard.setOnClickListener {
             findNavController().navigate(R.id.navigation_mybookings)
         }
@@ -87,5 +99,16 @@ class AccountFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+// Sign out function
+    private fun signOut(){
+        auth = FirebaseAuth.getInstance()
+        auth.signOut()
+        googleSignInClient.signOut()
+            .addOnCompleteListener{
+                startActivity(Intent(requireContext(),LogInActivity::class.java))
+                requireActivity().finish() // to prevent going back to profile fragment
+            }
+
     }
 }

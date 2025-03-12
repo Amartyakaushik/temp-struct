@@ -202,10 +202,12 @@ class HomeFragment : Fragment() {
         val placeName = locationParts.getOrNull(0) ?: "Unknown Place"
         val cityState = locationParts.drop(1).joinToString(", ").ifEmpty { "Unknown City, Unknown State" }
 
-        val locationTitle = view?.findViewById<TextView>(R.id.locationTitle)
-        val locationSubtitle = view?.findViewById<TextView>(R.id.locationSubtitle)
+        if (view != null) {
+            val locationTitle = view?.findViewById<TextView>(R.id.locationTitle)
+            val locationSubtitle = view?.findViewById<TextView>(R.id.locationSubtitle)
 
-        locationTitle?.text = placeName
-        locationSubtitle?.text = cityState
+            locationTitle?.text = placeName
+            locationSubtitle?.text = cityState
+        }
     }
 }

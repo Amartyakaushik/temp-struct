@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -28,6 +29,7 @@ import com.example.worka1.ui.show_category_details.components.Subcategory
 import com.example.worka1.ui.show_category_details.components.SubcategoryAdapter
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 
@@ -41,7 +43,8 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
     private lateinit var servicesRecyclerView: RecyclerView
     private lateinit var subCategoriesRecyclerView: RecyclerView
     private val fb = Firebase.firestore
-    private val userId = "DH8j7CdzJHioSBFlrPav" // test user id
+    private val auth = FirebaseAuth.getInstance()
+    private val userId = auth.currentUser?.uid
     private lateinit var cartViewModel: CartViewModel
     private lateinit var floatingCartLayout :View
     private lateinit var cartTotalTextView: TextView
@@ -49,7 +52,11 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_show_category_details)
-
+        if (userId == null) {
+            Toast.makeText(this, "User not found. Returning to previous screen.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -79,7 +86,9 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
                 }
             }
 
-            cartViewModel.fetchCartTotal(userId)
+            if (userId != null) {
+                cartViewModel.fetchCartTotal(userId)
+            }
             supportActionBar?.title = categoryId
 
             fetchServices { services ->
@@ -112,7 +121,11 @@ class ShowCategoryDetailsActivity : AppCompatActivity(), OnServiceClickListener 
         subCategoriesList = mutableListOf()
         subCategoriesRecyclerView = findViewById(R.id.subcategories_container)
         subCategoriesRecyclerView.layoutManager = LinearLayoutManager(this)
-        subCategoriesRecyclerView.adapter = SubcategoryAdapter(subCategoriesList, userId, categoryId, cartViewModel, this)
+        subCategoriesRecyclerView.adapter =
+            userId?.let {
+                SubcategoryAdapter(subCategoriesList,
+                    it, categoryId, cartViewModel, this)
+            }
     }
 
     private fun fetchServices(callback: (List<ServiceCategories>) -> Unit) {

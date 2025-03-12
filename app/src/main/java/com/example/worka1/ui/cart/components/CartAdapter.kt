@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -61,6 +62,10 @@ class CartAdapter(private val context: CartActivity, private val cartItems: Muta
         }
 
         holder.checkout_button.setOnClickListener {
+            if (user_id.isBlank()) {
+                Toast.makeText(context, "User ID is missing. Cannot proceed to checkout.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             val intent = Intent(context, CheckoutActivity::class.java)
             intent.putExtra("user_id", user_id)
             intent.putExtra("service_id", cartItem.service_id)
@@ -68,6 +73,10 @@ class CartAdapter(private val context: CartActivity, private val cartItems: Muta
         }
 
         holder.delete_button.setOnClickListener {
+            if (user_id.isBlank()) {
+                Toast.makeText(context, "User ID is missing. Cannot delete item.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             context.removeFromFirebase("-1", cartItem.service_id, user_id)
             cartItems.removeAt(position)
             notifyItemRemoved(position)

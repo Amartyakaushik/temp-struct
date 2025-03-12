@@ -1,9 +1,12 @@
 package com.example.worka1.ui.account
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,12 +14,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.worka1.R
 import com.example.worka1.databinding.FragmentAccountBinding
+import com.example.worka1.ui.authentication.LogInActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class AccountFragment : Fragment() {
 
     private var _binding: FragmentAccountBinding? = null
     private val binding get() = _binding!!
-
+    private val auth = FirebaseAuth.getInstance()
     companion object {
         fun newInstance() = AccountFragment()
     }
@@ -39,25 +44,18 @@ class AccountFragment : Fragment() {
             findNavController().navigate(R.id.navigation_edit)
         }
         val myBookingCard = binding.cardMyBookings
-        val paymentsCard = binding.cardPayments
         val helpSupportCard = binding.cardHelpSupport
 
         myBookingCard.setOnClickListener {
             findNavController().navigate(R.id.navigation_mybookings)
         }
 
-        paymentsCard.setOnClickListener {
-            findNavController().navigate(R.id.navigation_native_device)
-        }
 
         helpSupportCard.setOnClickListener {
             findNavController().navigate(R.id.navigation_helpandsupport)
         }
 
         val images = listOf(
-            R.drawable.ic_my_plan,
-            R.drawable.wallet,
-            R.drawable.ic_plus_membership,
             R.drawable.ic_my_rating,
             R.drawable.ic_my_location,
             R.drawable.payment_method,
@@ -65,22 +63,35 @@ class AccountFragment : Fragment() {
             R.drawable.ic_profile_24
         )
         val names = listOf(
-            "My Plans",
-            "Wallet",
-            "Plus membership",
             "My rating",
             "Manage addresses",
             "Manage payment methods",
             "Settings",
             "About WorkA1",
-
         )
 
         val adapter = AccountAdapter(images, names, findNavController())
 
         binding.accountRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.accountRecyclerView.adapter = adapter
+        val logout_button = view.findViewById<LinearLayout>(R.id.logout_button)
+        val logout_button_text = view.findViewById<TextView>(R.id.logout_button_text)
 
+        if(auth.currentUser == null){
+            logout_button_text.text = "Login"
+            logout_button.setOnClickListener {
+                val intent = Intent(requireContext(), LogInActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        else{
+            logout_button_text.text = "Logout"
+            auth.signOut()
+            logout_button.setOnClickListener {
+                val intent = Intent(requireContext(), LogInActivity::class.java)
+                startActivity(intent)
+            }
+        }
         return view
     }
 

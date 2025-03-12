@@ -112,48 +112,6 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Second Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_payments"
-                    android:layout_width="0dp"
-                    android:layout_height="130dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    app:cardCornerRadius="10dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="15dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:background="@drawable/wallet"
-                                android:textSize="14sp"
-                                android:layout_alignParentStart="true" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="30dp"
-                                android:textColor="@color/black"
-                                android:text="Native Devices"
-                                android:textSize="15sp"
-                                android:layout_alignParentStart="true" />
-                        </RelativeLayout>
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
 
                 <!-- Third Card -->
                 <com.google.android.material.card.MaterialCardView
@@ -207,72 +165,17 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/accountRecyclerView"
-                    android:layout_height="450sp"
+                    android:layout_height="350sp"
                     android:layout_marginTop="16dp"
                     android:padding="3dp"
-                    />
+                />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
                 android:backgroundTint="#E6A3B9"
-                android:layout_marginTop="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Reffer a friend"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:layout_marginBottom="5dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Get ₹100 when your friend \ncompletes their first booking"
-                            android:textSize="14sp"
-                            android:textColor="#161010"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="8dp"/>
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="60dp"
-                            android:src="@drawable/giftbox"
-                            android:paddingStart="30dp"
-                            android:layout_gravity="center"
-                            android:paddingBottom="8dp"
-                            android:paddingEnd="2dp"/>
-
-                    </LinearLayout>
-
-                    <Button
-                        android:layout_width="120dp"
-                        android:layout_height="47dp"
-                        android:text="Refer Now"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:background="@drawable/add_to_card_shape"
-                        android:padding="8dp"
-                        android:layout_marginTop="10dp"/>
-
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="20dp"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -285,9 +188,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="15dp">
+                    android:padding="15dp"
+                    android:id="@+id/logout_button">
 
                     <TextView
+                        android:id="@+id/logout_button_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Logout"
@@ -298,19 +203,6 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="15dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Version 7.5.89 R452"
-                    android:layout_marginBottom="18dp"
-                    />
-            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

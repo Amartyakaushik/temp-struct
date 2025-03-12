@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="65pt"
-        android:layout_height="65pt"
+        android:layout_width="60pt"
+        android:layout_height="60pt"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
@@ -44,16 +44,16 @@
 
         <TextView
             android:id="@+id/service_price"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="₹349"
+            android:layout_marginEnd="10dp"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/add_button_normal"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="40dp"
             android:background="@drawable/add_button_shape"
             android:text="Add"

@@ -67,8 +67,7 @@
             android:layout_height="40dp"
             android:padding="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_delete"
-            app:tint="@android:color/holo_red_dark" />
+            app:srcCompat="@drawable/ic_delete" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -105,7 +104,7 @@
             android:layout_weight="1"
             android:text="Checkout"
             android:background="@drawable/add_button_shape"
-            app:backgroundTint="@android:color/holo_blue_dark"
+            app:backgroundTint="@color/primaryColor"
             android:textColor="@color/white"
             android:layout_marginStart="6dp"/>
     </LinearLayout>

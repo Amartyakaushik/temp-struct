@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.cart.CartActivity">
+    tools:context=".ui.cart.CartActivity"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,8 +20,7 @@
         android:id="@+id/recyclerView_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:paddingTop="?attr/actionBarSize" />
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/empty_cart_view"
@@ -60,4 +60,4 @@
             android:textSize="16sp"
             android:textColor="#9B3CAB" />
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>

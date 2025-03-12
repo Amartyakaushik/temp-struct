@@ -29,6 +29,7 @@
                 android:layout_marginVertical="10dp" />
 
             <TextView
+                android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thoughtful Curations"
@@ -36,6 +37,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="of our finest experience"
@@ -48,6 +50,7 @@
                 android:layout_marginVertical="10dp" />
 
             <TextView
+                android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New and Noteworthy"
@@ -61,6 +64,7 @@
                 android:layout_marginVertical="10dp" />
 
             <TextView
+                android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Most booked services"

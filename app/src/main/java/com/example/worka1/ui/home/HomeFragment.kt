@@ -3,6 +3,7 @@ package com.example.worka1.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,11 +26,16 @@ import com.example.worka1.ui.location_manager.MapsActivity
 import com.example.worka1.ui.search_services.SearchServicesActivity
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,43 +99,86 @@ class HomeFragment : Fragment() {
             val searchIntent = Intent(requireContext(), SearchServicesActivity::class.java)
             startActivity(searchIntent)
         }
+        lifecycleScope.launch {
+            val videoList = fetchVideo()
+            val feedbackRecyclerView = binding.root.findViewById<RecyclerView>(R.id.feedbackPreviews)
+            feedbackRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            feedbackRecyclerView.adapter = VideoAdapter(requireContext(), videoList)
+        }
 
-        val videoList = listOf(
-            VideoItem("https://media.giphy.com/media/kJEK2i63DXne04EYJh/giphy.gif", "Trending Now"),
-            VideoItem("https://media.giphy.com/media/f9p9VjrLWO5ag/giphy.gif", "Popular Services"),
-            VideoItem("https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", "Best Rated")
-        )
+        lifecycleScope.launch {
+            val newSubCategoriesList = fetchSubcategories("new")
+            val newSubCategoriesRecyclerView = binding.root.findViewById<RecyclerView>(R.id.newSubCategories)
+            newSubCategoriesRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            newSubCategoriesRecyclerView.adapter = SubCategoryItemAdapter(requireContext(), newSubCategoriesList)
+        }
 
-        val feedbackRecyclerView = binding.root.findViewById<RecyclerView>(R.id.feedbackPreviews)
-        feedbackRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        feedbackRecyclerView.adapter = VideoAdapter(requireContext(), videoList)
+        lifecycleScope.launch {
+            val mostBookedSubCategoryList = fetchSubcategories("trending")
+            val mostBookedSubCategoryRecyclerView = binding.root.findViewById<RecyclerView>(R.id.mostBookedSubCategories)
+            mostBookedSubCategoryRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            mostBookedSubCategoryRecyclerView.adapter = SubCategoryItemAdapter(requireContext(), mostBookedSubCategoryList)
+        }
+    }
 
-        val newSubCategoriesList = listOf(
-            SubCategoryItem("1", "electrician", "switch_socket", "Smart Lights", R.drawable.plumber, 4.5f, 120, "₹1,299"),
-            SubCategoryItem("2", "carpenter", "drill_hang", "Roofing", R.drawable.carpenter, 4.2f, 85, "₹2,499"),
-            SubCategoryItem("3", "cleaner", "bathroom_fittings", "Bathroom Cleaning", R.drawable.cleaner, 4.8f, 230, "₹3,799"),
-            SubCategoryItem("4", "plumber", "drainage_system", "Drainage System", R.drawable.plumber, 4.6f, 150, "₹4,999"),
-            SubCategoryItem("5", "painter", "interior_painting", "Interior Painting", R.drawable.painter, 4.3f, 95, "₹899")
-        )
+    private suspend fun fetchVideo(): List<VideoItem> = withContext(Dispatchers.IO) {
+        val list = mutableListOf<VideoItem>()
+        try {
+            val querySnapshot = db.collection("misc").document("videos").get().await()
+            for (document in querySnapshot.data?.values.orEmpty()) {
+                val data = document as? Map<*, *> ?: continue
+                val video_url = data["videoUrl"] as? String ?: continue
+                val video_name = data["title"] as? String ?: continue
+                list.add(VideoItem(video_url, video_name))
+            }
+        }
+        catch (e: Exception){
+         e.printStackTrace()
+        }
+        return@withContext list
+    }
+    private suspend fun fetchSubcategories(type: String): List<SubCategoryItem> = withContext(Dispatchers.IO) {
+        val list = mutableListOf<SubCategoryItem>()
+        try {
+            val querySnapshot = db.collection("misc").document(type).get().await()
+            val subcategoriesSnapshot = db.collection("service_subcategories")
 
-        val newSubCategoriesRecyclerView = binding.root.findViewById<RecyclerView>(R.id.newSubCategories)
-        newSubCategoriesRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        newSubCategoriesRecyclerView.adapter = SubCategoryItemAdapter(requireContext(), newSubCategoriesList)
+            for (document in querySnapshot.data?.values.orEmpty()) {
+                val data = document as? Map<*, *> ?: continue
+                val item_id = data["item_id"] as? String ?: continue
+                val subcategory_id = data["subcategory_id"] as? String ?: continue
 
-        val mostBookedSubCategoryList = listOf(
-            SubCategoryItem("1", "labour", "masonry_work", "Masonry Work", R.drawable.labour, 4.5f, 120, "₹1,299"),
-            SubCategoryItem("2", "beautician", "male_beautician", "Male Beautician", R.drawable.beautician, 4.2f, 85, "₹2,499"),
-            SubCategoryItem("3", "home_decor", "interior_decoration", "Interior Decoration", R.drawable.homedecor, 4.8f, 230, "₹3,799"),
-            SubCategoryItem("4", "cleaner", "bathroom_cleaning", "Bathroom Cleaning", R.drawable.cleaner, 4.6f, 150, "₹4,999"),
-            SubCategoryItem("5", "carpenter", "roofing", "Roofing", R.drawable.carpenter, 4.3f, 95, "₹899")
-        )
+                val subcategory_map = subcategoriesSnapshot.document(subcategory_id).get().await()
+                val subcategory_data = subcategory_map.data ?: continue
 
-        val mostBookedSubCategoryRecyclerView = binding.root.findViewById<RecyclerView>(R.id.mostBookedSubCategories)
-        mostBookedSubCategoryRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        mostBookedSubCategoryRecyclerView.adapter = SubCategoryItemAdapter(requireContext(), mostBookedSubCategoryList)
+                val items = subcategory_data["items"] as? List<*> ?: continue  // FIX: Convert to List
+
+                val item_map = items.find {
+                    (it as? Map<*, *>)?.get("id") == item_id
+                } as? Map<*, *> ?: continue
+
+                val category_id = subcategory_data["category_id"] as? String ?: continue
+                val item_name = item_map["itemName"] as? String ?: continue
+                val item_image = item_map["imageUrl"] as? String ?: continue
+
+                val item_price = item_map["price"]?.toString()?.toIntOrNull() ?: 0
+                val item_rating = item_map["ratingCount"]?.toString()?.toFloatOrNull() ?: 0.0f
+                val item_rating_count = item_map["reviewsCount"]?.toString()?.toIntOrNull() ?: 0  // FIX: Correct key
+
+                list.add(
+                    SubCategoryItem(
+                        item_id, category_id, subcategory_id, item_name, item_image,
+                        item_rating, item_rating_count, item_price
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return@withContext list
     }
 
     override fun onDestroyView() {

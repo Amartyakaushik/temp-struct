@@ -45,7 +45,7 @@ class ServicesFragment : Fragment(), OnServiceClickListener {
     private lateinit var subCategoriesRecyclerView: RecyclerView
     private val fb = Firebase.firestore
     private val auth = FirebaseAuth.getInstance()
-    private val userId = auth.currentUser?.uid
+    private val userId = auth.currentUser?.uid ?: "DH8j7CdzJHioSBFlrPav"
     private lateinit var cartViewModel: CartViewModel
     private lateinit var floatingCartLayout :View
     private lateinit var cartTotalTextView: TextView

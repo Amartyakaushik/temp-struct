@@ -28,57 +28,66 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.exoplayer.hls)
-    implementation(libs.androidx.media3.ui)
-
-    implementation (libs.glide)
-    implementation (libs.glide.transformations)
-    // Import the BoM for the Firebase platform
+    // Firebase BOM (Manage Firebase versions automatically)
     implementation(platform(libs.firebase.bom))
 
-    // Add the dependency for the Firebase Authentication library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation(libs.firebase.auth)
+    // Firebase dependencies (Only include what you need)
+    implementation(libs.firebase.firestore)
 
+    // Core AndroidX libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
+
+    // Lifecycle components
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Navigation Components
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.androidx.legacy.support.v4)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.activity)
+
+    // Google Play Services (Maps & Places)
     implementation(libs.play.services.maps)
-    implementation (libs.play.services.maps.v1910)
-    implementation (libs.play.services.location)
-    implementation (libs.places)
+    implementation(libs.play.services.location)
+    implementation(libs.places)
+
+    // Glide for image loading
+    implementation(libs.glide)
+    implementation(libs.glide.transformations)
+
+    // ExoPlayer (Media playback)
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.exoplayer.hls)
     implementation(libs.androidx.media3.ui)
-    implementation(libs.androidx.annotation)
-    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth.ktx)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation ("com.google.firebase:firebase-auth:21.0.5")
-    implementation ("com.google.firebase:firebase-firestore:24.4.0")
-    implementation ("com.google.android.material:material:1.8.0")
-    // Make sure to add Firebase BOM for versions management
+}
 
+// Secrets Plugin Configuration (For API keys)
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "local.defaults.properties"
 }

@@ -1,128 +1,170 @@
 package com.example.worka1.ui.location_manager
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.location.Location
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import com.example.worka1.R
 import com.example.worka1.databinding.ActivityMapsBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import android.content.Intent
-import android.util.Log
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapsSdkInitializedCallback
+import com.google.android.libraries.places.api.model.AutocompletePrediction
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.example.worka1.BuildConfig
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMapsSdkInitializedCallback {
+class MapsActivity : AppCompatActivity() {
 
-    private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var placesClient: PlacesClient
+
+    private val searchHistory = mutableListOf<String>()
+    private val searchResults = mutableListOf<String>()
+    private val placeDetailsMap = mutableMapOf<String, String>()
+
+    private lateinit var historyAdapter: ArrayAdapter<String>
+    private lateinit var resultsAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        MapsInitializer.initialize(applicationContext, MapsInitializer.Renderer.LATEST, this)
-        // Initialize Places API
-        if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, "AIzaSyDQ2c_pOSOFYSjxGMwkFvCVWKjYOM9siow")
+
+        Places.initialize(applicationContext, BuildConfig.PLACES_API_KEY)
+        placesClient = Places.createClient(this)
+
+        sharedPreferences = getSharedPreferences("search_history", MODE_PRIVATE)
+
+        setupAdapters()
+        loadSearchHistory()
+        setupSearchListener()
+    }
+
+    private fun setupAdapters() {
+        historyAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, searchHistory)
+        resultsAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, searchResults)
+
+        binding.historyListView.adapter = historyAdapter
+        binding.searchResultsListView.adapter = resultsAdapter
+
+        binding.historyListView.setOnItemClickListener { _, _, position, _ ->
+            val selectedPlace = searchHistory[position]
+            saveSearchHistory(selectedPlace)
+            binding.searchView.setQuery(selectedPlace, false)
+            fetchPlaceDetails(selectedPlace)
         }
 
-        // Initialize fused location client
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        // Get map fragment
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
-        // Set up search button
-        binding.searchButton.setOnClickListener {
-            openPlaceSearch()
-        }
-
-        // Set up location button
-        binding.myLocationButton.setOnClickListener {
-            getMyLocation()
+        binding.searchResultsListView.setOnItemClickListener { _, _, position, _ ->
+            val selectedPlace = searchResults[position]
+            saveSearchHistory(selectedPlace)
+            fetchPlaceDetails(selectedPlace)
+            finish()
         }
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-
-        // Enable user location if permission is granted
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            mMap.isMyLocationEnabled = true
-        } else {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE
-            )
-        }
-
-        // Default location: New York City
-        val defaultLocation = LatLng(40.7128, -74.0060)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 12f))
-    }
-
-    private fun openPlaceSearch() {
-        val fields = listOf(com.google.android.libraries.places.api.model.Place.Field.LAT_LNG, com.google.android.libraries.places.api.model.Place.Field.NAME)
-
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-            .build(this)
-        startActivityForResult(intent, 100)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 100 && data != null) {
-            val place = Autocomplete.getPlaceFromIntent(data)
-            val latLng = place.latLng
-
-            if (latLng != null) {
-                mMap.clear()
-                mMap.addMarker(MarkerOptions().position(latLng).title(place.name))
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
-            }
-        }
-    }
-
-    private fun getMyLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                location?.let {
-                    val myLatLng = LatLng(it.latitude, it.longitude)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 14f))
-                    mMap.addMarker(MarkerOptions().position(myLatLng).title("You are here"))
+    private fun setupSearchListener() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    saveSearchHistory(it)
+                    binding.searchView.clearFocus()
                 }
+                return true
             }
-        } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-        }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrBlank()) {
+                    showHistory()
+                } else {
+                    fetchPlaceSuggestions(newText)
+                }
+                return true
+            }
+        })
     }
 
-    override fun onMapsSdkInitialized(renderer: MapsInitializer.Renderer) {
-        when (renderer) {
-            MapsInitializer.Renderer.LATEST -> Log.d("MapsDemo", "The latest version of the renderer is used.")
-            MapsInitializer.Renderer.LEGACY -> Log.d("MapsDemo", "The legacy version of the renderer is used.")
+    private fun fetchPlaceSuggestions(query: String) {
+        val request = FindAutocompletePredictionsRequest.builder().setQuery(query).build()
+
+        placesClient.findAutocompletePredictions(request)
+            .addOnSuccessListener { response ->
+                searchResults.clear()
+                placeDetailsMap.clear()
+                response.autocompletePredictions.forEach { prediction ->
+                    val placeName = prediction.getFullText(null).toString()
+                    searchResults.add(placeName)
+                    placeDetailsMap[placeName] = prediction.placeId
+                }
+                showSearchResults()
+            }
+    }
+
+    private fun fetchPlaceDetails(placeName: String) {
+        val placeId = placeDetailsMap[placeName] ?: return
+        val placeFields = listOf(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS_COMPONENTS)
+        val request = FetchPlaceRequest.builder(placeId, placeFields).build()
+
+        placesClient.fetchPlace(request)
+            .addOnSuccessListener { response ->
+                val place = response.place
+                val name = place.name ?: "Unknown"
+                val latLng = place.latLng
+                val latitude = latLng?.latitude ?: 0.0
+                val longitude = latLng?.longitude ?: 0.0
+
+                var city = "Unknown"
+                var state = "Unknown"
+
+                place.addressComponents?.asList()?.forEach { component ->
+                    when {
+                        component.types.contains("locality") -> city = component.name
+                        component.types.contains("administrative_area_level_1") -> state = component.name
+                    }
+                }
+
+                val formattedLocation = "$name, $city, $state"
+
+                sharedPreferences.edit()
+                    .putString("last_selected_location", formattedLocation)
+                    .apply()
+
+                Toast.makeText(this, "Location saved: $formattedLocation", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to fetch place details", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun saveSearchHistory(placeName: String) {
+        if (!searchHistory.contains(placeName)) {
+            searchHistory.add(0, placeName)
+            sharedPreferences.edit().putStringSet("history", searchHistory.toSet()).apply()
         }
+        historyAdapter.notifyDataSetChanged()
+    }
+
+    private fun loadSearchHistory() {
+        searchHistory.clear()
+        searchHistory.addAll(sharedPreferences.getStringSet("history", emptySet()) ?: emptySet())
+        historyAdapter.notifyDataSetChanged()
+        showHistory()
+    }
+
+    private fun showHistory() {
+        binding.historyListView.visibility = View.VISIBLE
+        binding.historyLabel.visibility = View.VISIBLE
+        binding.searchResultsListView.visibility = View.GONE
+        binding.searchResultsLabel.visibility = View.GONE
+    }
+
+    private fun showSearchResults() {
+        binding.historyListView.visibility = View.GONE
+        binding.historyLabel.visibility = View.GONE
+        binding.searchResultsListView.visibility = View.VISIBLE
+        binding.searchResultsLabel.visibility = View.VISIBLE
+        resultsAdapter.notifyDataSetChanged()
     }
 }

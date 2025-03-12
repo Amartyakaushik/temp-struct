@@ -15,8 +15,6 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Use SharedPreferences to check if onboarding is completed
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         val isOnboardingCompleted = sharedPreferences.getBoolean("is_onboarding_completed", false)
 
@@ -30,6 +28,5 @@ class SplashScreen : AppCompatActivity() {
                 finish()
             }
         }
-
     }
 }

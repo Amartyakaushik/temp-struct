@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/subcategory_item_name"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Item Name"
         android:textSize="14sp"

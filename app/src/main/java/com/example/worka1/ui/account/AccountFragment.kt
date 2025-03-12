@@ -86,8 +86,8 @@ class AccountFragment : Fragment() {
         }
         else{
             logout_button_text.text = "Logout"
-            auth.signOut()
             logout_button.setOnClickListener {
+                auth.signOut()
                 val intent = Intent(requireContext(), LogInActivity::class.java)
                 startActivity(intent)
             }

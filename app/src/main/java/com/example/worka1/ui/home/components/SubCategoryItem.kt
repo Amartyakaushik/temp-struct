@@ -5,8 +5,8 @@ data class SubCategoryItem(
     val category_id: String,
     val subcategory_id: String,
     val name: String,
-    val imageResId: Int,
+    val imageResId: String,
     val rating: Float,
     val ratingsCount: Int,
-    val price: String
+    val price: Int
 )

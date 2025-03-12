@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.worka1.R
 import com.example.worka1.ui.show_category_details.ShowCategoryDetailsActivity
+import com.example.worka1.utils.formatNumber
 
 class SubCategoryItemAdapter(
     private val context: Context,
@@ -33,10 +36,17 @@ class SubCategoryItemAdapter(
     override fun onBindViewHolder(holder: SubCategoryItemViewHolder, position: Int) {
         val subCategoryItem = subCategoryItemList[position]
         holder.titleTextView.text = subCategoryItem.name
-        holder.imageView.setImageResource(subCategoryItem.imageResId)
+        Glide.with(holder.itemView.context)
+            .load(subCategoryItem.imageResId)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_add_to_cart_24)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .dontAnimate()
+            .into(holder.imageView)
+
         holder.ratingTextView.text = subCategoryItem.rating.toString()
-        holder.ratingsCountTextView.text = "(${subCategoryItem.ratingsCount})"
-        holder.priceTextView.text = subCategoryItem.price
+        holder.ratingsCountTextView.text = "(${formatNumber(subCategoryItem.ratingsCount)})"
+        holder.priceTextView.text = "₹${subCategoryItem.price}"
         val category_id = subCategoryItem.category_id
         val subcategory_id = subCategoryItem.subcategory_id
         holder.itemView.setOnClickListener {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.worka1.MainActivity
 import com.example.worka1.databinding.ActivityOnBoardingBinding
+import com.example.worka1.ui.authentication.LogInActivity
 
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding : ActivityOnBoardingBinding
@@ -24,10 +25,6 @@ class OnBoardingActivity : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
             sharedPreferences.edit().putBoolean("is_onboarding_completed", true).apply()
             startActivity(Intent(this, MainActivity::class.java))
-<<<<<<< HEAD
-            finish()
-=======
->>>>>>> 8ed2d363b3236e59012ee67c29038391511afd2e
         }
 
     }

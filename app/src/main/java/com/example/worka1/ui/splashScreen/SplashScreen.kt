@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.worka1.BuildConfig
 import com.example.worka1.MainActivity
 import com.example.worka1.databinding.ActivitySplashScreenBinding
+import com.google.android.libraries.places.api.Places
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -15,7 +17,12 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        try {
+            Places.initialize(applicationContext, BuildConfig.PLACES_API_KEY)
+        }
+        catch (e:Exception){
+         e.printStackTrace()
+        }
         // Use SharedPreferences to check if onboarding is completed
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         val isOnboardingCompleted = sharedPreferences.getBoolean("is_onboarding_completed", false)
@@ -30,6 +37,5 @@ class SplashScreen : AppCompatActivity() {
                 finish()
             }
         }
-
     }
 }

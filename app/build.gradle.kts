@@ -37,6 +37,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -73,6 +74,7 @@ dependencies {
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.annotation)
     implementation(libs.firebase.firestore)
+    implementation(project(":app"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,5 +82,17 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore:24.4.0")
     implementation ("com.google.android.material:material:1.8.0")
     // Make sure to add Firebase BOM for versions management
-
+    implementation (libs.places)
+    implementation(libs.places.ktx)
 }
+
+secrets {
+    // Optionally specify a different file name containing your secrets.
+    // The plugin defaults to "local.properties"
+    propertiesFileName = "secrets.properties"
+
+    // A properties file containing default secret values. This file can be
+    // checked in version control.
+    defaultPropertiesFileName = "local.defaults.properties"
+}
+

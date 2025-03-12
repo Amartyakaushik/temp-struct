@@ -20,6 +20,7 @@ fragmentKtx = "1.5.6"
 activity = "1.10.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 places = "4.1.0"
+placesKtx = "3.1.1"
 playServicesLocation = "21.3.0"
 playServicesMaps = "19.0.0"
 playServicesMapsVersion = "19.1.0"
@@ -28,6 +29,7 @@ media3Ui = "1.5.1"
 annotation = "1.9.1"
 googleGmsGoogleServices = "4.4.2"
 firebaseFirestore = "25.1.2"
+secretsGradlePlugin = "2.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +52,7 @@ androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
+places-ktx = { module = "com.google.maps.android:places-ktx", version.ref = "placesKtx" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-maps-v1910 = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMapsVersion" }
@@ -57,6 +60,7 @@ androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplaye
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

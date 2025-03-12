@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.worka1.MainActivity
 import com.example.worka1.databinding.ActivityOnBoardingBinding
-import com.example.worka1.ui.authentication.LogInActivity
 
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding : ActivityOnBoardingBinding
@@ -24,7 +23,7 @@ class OnBoardingActivity : AppCompatActivity() {
             // Set the onboarding completion flag to true when the user skips the onBoarding screen
             val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
             sharedPreferences.edit().putBoolean("is_onboarding_completed", true).apply()
-            startActivity(Intent(this, LogInActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 

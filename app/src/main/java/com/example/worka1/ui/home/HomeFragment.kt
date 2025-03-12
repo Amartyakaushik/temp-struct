@@ -36,7 +36,7 @@ import kotlinx.coroutines.withContext
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: throw IllegalStateException("View binding is accessed after onDestroyView()")
     private val db = Firebase.firestore
     private val locationActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         updateLocationUI()
@@ -51,13 +51,9 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        updateLocationUI()
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if (_binding == null) return
         updateLocationUI()
         val loadingComponent = view.findViewById<ConstraintLayout>(R.id.loading_component)
         val servicesRecyclerView = binding.root.findViewById<RecyclerView>(R.id.services_container)
@@ -71,6 +67,7 @@ class HomeFragment : Fragment() {
         servicesRecyclerView.adapter = servicesAdapter
 
         fun toggleLoading(isLoading: Boolean) {
+            if (_binding == null) return
             loadingComponent.visibility = if (isLoading) View.VISIBLE else View.GONE
             servicesRecyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
@@ -110,26 +107,30 @@ class HomeFragment : Fragment() {
         }
         lifecycleScope.launch {
             val videoList = fetchVideo()
-            val feedbackRecyclerView = binding.root.findViewById<RecyclerView>(R.id.feedbackPreviews)
-            feedbackRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            feedbackRecyclerView.adapter = VideoAdapter(requireContext(), videoList)
+            if (_binding != null) {
+                binding.feedbackPreviews.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                binding.feedbackPreviews.adapter = VideoAdapter(requireContext(), videoList)
+            }
         }
 
         lifecycleScope.launch {
             val newSubCategoriesList = fetchSubcategories("new")
-            val newSubCategoriesRecyclerView = binding.root.findViewById<RecyclerView>(R.id.newSubCategories)
-            newSubCategoriesRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            newSubCategoriesRecyclerView.adapter = SubCategoryItemAdapter(requireContext(), newSubCategoriesList)
+            if (_binding != null) {
+                binding.newSubCategories.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                binding.newSubCategories.adapter = SubCategoryItemAdapter(requireContext(), newSubCategoriesList)
+            }
         }
 
         lifecycleScope.launch {
             val mostBookedSubCategoryList = fetchSubcategories("trending")
-            val mostBookedSubCategoryRecyclerView = binding.root.findViewById<RecyclerView>(R.id.mostBookedSubCategories)
-            mostBookedSubCategoryRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            mostBookedSubCategoryRecyclerView.adapter = SubCategoryItemAdapter(requireContext(), mostBookedSubCategoryList)
+            if (_binding != null) {
+                binding.mostBookedSubCategories.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                binding.mostBookedSubCategories.adapter =
+                    SubCategoryItemAdapter(requireContext(), mostBookedSubCategoryList)
+            }
         }
     }
 
@@ -195,6 +196,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
     private fun updateLocationUI() {
+        if(_binding == null) return
         val sharedPreferences = requireContext().getSharedPreferences("search_history", AppCompatActivity.MODE_PRIVATE)
         val lastLocation = sharedPreferences.getString("last_selected_location", "Unknown, Unknown City, Unknown State") ?: "Unknown, Unknown City, Unknown State"
 
@@ -202,10 +204,12 @@ class HomeFragment : Fragment() {
         val placeName = locationParts.getOrNull(0) ?: "Unknown Place"
         val cityState = locationParts.drop(1).joinToString(", ").ifEmpty { "Unknown City, Unknown State" }
 
-        val locationTitle = view?.findViewById<TextView>(R.id.locationTitle)
-        val locationSubtitle = view?.findViewById<TextView>(R.id.locationSubtitle)
+        if (view != null) {
+            val locationTitle = view?.findViewById<TextView>(R.id.locationTitle)
+            val locationSubtitle = view?.findViewById<TextView>(R.id.locationSubtitle)
 
-        locationTitle?.text = placeName
-        locationSubtitle?.text = cityState
+            locationTitle?.text = placeName
+            locationSubtitle?.text = cityState
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,7 @@ import com.example.worka1.ui.show_category_details.components.Subcategory
 import com.example.worka1.ui.show_category_details.components.SubcategoryAdapter
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 
@@ -42,7 +44,8 @@ class ServicesFragment : Fragment(), OnServiceClickListener {
     private lateinit var servicesRecyclerView: RecyclerView
     private lateinit var subCategoriesRecyclerView: RecyclerView
     private val fb = Firebase.firestore
-    private val userId = "DH8j7CdzJHioSBFlrPav" // test user id
+    private val auth = FirebaseAuth.getInstance()
+    private val userId = auth.currentUser?.uid ?: "DH8j7CdzJHioSBFlrPav"
     private lateinit var cartViewModel: CartViewModel
     private lateinit var floatingCartLayout :View
     private lateinit var cartTotalTextView: TextView
@@ -67,6 +70,11 @@ class ServicesFragment : Fragment(), OnServiceClickListener {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+        if (userId == null) {
+            Toast.makeText(requireContext(), "User not found. Returning to previous screen.", Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
+            return view
+        }
         categoryId = "carpenter"
         subCategoryId = ""
         itemId = ""
@@ -86,7 +94,9 @@ class ServicesFragment : Fragment(), OnServiceClickListener {
             }
         }
 
-        cartViewModel.fetchCartTotal(userId)
+        if (userId != null) {
+            cartViewModel.fetchCartTotal(userId)
+        }
         fetchServices { services ->
             servicesList.clear()
             servicesList.addAll(services)
@@ -116,7 +126,11 @@ class ServicesFragment : Fragment(), OnServiceClickListener {
         subCategoriesList = mutableListOf()
         subCategoriesRecyclerView = view.findViewById(R.id.subcategories_container)
         subCategoriesRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        subCategoriesRecyclerView.adapter = SubcategoryAdapter(subCategoriesList, userId, categoryId, cartViewModel, this)
+        subCategoriesRecyclerView.adapter =
+            userId?.let {
+                SubcategoryAdapter(subCategoriesList,
+                    it, categoryId, cartViewModel, this)
+            }
     }
 
     private fun fetchServices(callback: (List<ServiceCategories>) -> Unit) {

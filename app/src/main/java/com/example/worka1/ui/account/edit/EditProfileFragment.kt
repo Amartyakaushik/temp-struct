@@ -19,7 +19,7 @@ import com.google.firebase.firestore.SetOptions
 class EditProfileFragment : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var auth: FirebaseAuth
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var usernameEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var phoneEditText: EditText
@@ -34,10 +34,13 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
-
+        val userId = auth.currentUser?.uid ?: "DH8j7CdzJHioSBFlrPav"
         firestore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-
+        if (userId.isBlank()) {
+            Toast.makeText(requireContext(), "User not authenticated. Returning to previous screen.", Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
+            return view
+        }
         usernameEditText = view.findViewById(R.id.editFullName)
         emailEditText = view.findViewById(R.id.editEmail)
         phoneEditText = view.findViewById(R.id.editPhone)
@@ -59,24 +62,24 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun loadUserData() {
-        val userId = auth.currentUser?.uid
+        val userId = auth.currentUser?.uid  ?: "DH8j7CdzJHioSBFlrPav"
+        if (userId != null) {
+            firestore.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val username = document.getString("username") ?: ""
+                        val email = document.getString("email") ?: ""
+                        val phone = document.getString("phone") ?: ""
 
-        val docId = "123"
-        firestore.collection("users").document(docId).get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    val username = document.getString("username") ?: ""
-                    val email = document.getString("email") ?: ""
-                    val phone = document.getString("phone") ?: ""
-
-                    usernameEditText.setText(username)
-                    emailEditText.setText(email)
-                    phoneEditText.setText(phone)
+                        usernameEditText.setText(username)
+                        emailEditText.setText(email)
+                        phoneEditText.setText(phone)
+                    }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Failed to load user data.", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(requireContext(), "Failed to load user data.", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
     private fun updateUserData() {
         val newUsername = usernameEditText.text.toString().trim()
@@ -85,7 +88,7 @@ class EditProfileFragment : Fragment() {
 
         if (newUsername.isNotBlank() && newEmail.isNotBlank() && newPhone.isNotBlank()) {
 
-            val docId = "123"
+            val userId = auth.currentUser?.uid ?: "DH8j7CdzJHioSBFlrPav"
 
             val userUpdates = hashMapOf<String, Any>()
 
@@ -93,14 +96,16 @@ class EditProfileFragment : Fragment() {
             if (newEmail != "") userUpdates["email"] = newEmail
             if (newPhone != "") userUpdates["phone"] = newPhone
 
-            firestore.collection("users").document(docId).set(userUpdates, SetOptions.merge())
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack()
-                }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(requireContext(), "Failed to update profile in Firestore.", Toast.LENGTH_SHORT).show()
-                }
+            if (userId != null) {
+                firestore.collection("users").document(userId).set(userUpdates, SetOptions.merge())
+                    .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(requireContext(), "Failed to update profile in Firestore.", Toast.LENGTH_SHORT).show()
+                    }
+            }
         } else {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
         }

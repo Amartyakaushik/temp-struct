@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/navigation_schedule"
-        android:name="com.example.worka1.ui.schedule.ScheduleFragment"
+        android:name="com.example.worka1.ui.schedule.ui.ScheduleFragment"
         android:label="Schedule"
         tools:layout="@layout/fragment_schedule" />
 

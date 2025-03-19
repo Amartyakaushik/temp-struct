@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="hintColor">#6E6E6E</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gold">#ED9930</color>
     <color name="startColor">#53E888</color>
     <color name="endColor">#15BE77</color>
     <color name="startblack">#0E0F0E</color>

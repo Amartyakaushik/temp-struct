@@ -12,6 +12,7 @@ import com.example.worka1.databinding.ActivityLogInBinding
 import com.example.worka1.ui.authentication.utils.GoogleSignInHelper
 import com.example.worka1.utils.UserRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
@@ -46,21 +47,30 @@ class LogInActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         if (user != null) {
                             if (user.isEmailVerified) {
-                                // Save user to Firestore after successful login
-                                val phoneNumber = intent.getStringExtra("phoneNumber")
-                                val userName = intent.getStringExtra("userName")
-                                Log.d("SS", "Phone Login entered: $phoneNumber")
-                                if (phoneNumber != null) {
-                                    UserRepository.saveUserToFirestore(user, userName, phoneNumber,
-                                        onSuccess = {
+                                val userId = user.uid
+                                FirebaseFirestore.getInstance().collection("users")
+                                    .document(userId).get()
+                                    .addOnSuccessListener { document ->
+                                        if (document.exists()){
+                                            val userName = document.getString("userName") ?: "User"
                                             Toast.makeText(this, "Welcome ${userName}", Toast.LENGTH_SHORT).show()
                                             startActivity(Intent(this, MainActivity::class.java))
                                             finish()
-                                        },
-                                        onFailure = {
-                                            Toast.makeText(this, "Failed to store user data", Toast.LENGTH_SHORT).show()
-                                        })
-                                }
+                                        }else{
+                                            // Save user to Firestore after successful login
+                                            val phoneNumber = intent.getStringExtra("phoneNumber")
+                                            val userName = intent.getStringExtra("userName")
+                                            UserRepository.saveUserToFirestore(user, userName, phoneNumber,
+                                                onSuccess = {
+                                                    Toast.makeText(this, "Welcome ${userName}", Toast.LENGTH_SHORT).show()
+                                                    startActivity(Intent(this, MainActivity::class.java))
+                                                    finish()
+                                                },
+                                                onFailure = {
+                                                    Toast.makeText(this, "Failed to store user data", Toast.LENGTH_SHORT).show()
+                                                })
+                                        }
+                                    }
                             } else {
                                 showAlertDialog("Verify Email", "Please verify your email before logging in.")
                                 auth.signOut() // Sign out the user to prevent access

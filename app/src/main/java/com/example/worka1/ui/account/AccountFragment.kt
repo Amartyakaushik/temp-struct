@@ -15,13 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.worka1.R
 import com.example.worka1.databinding.FragmentAccountBinding
 import com.example.worka1.ui.authentication.LogInActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 
 class AccountFragment : Fragment() {
 
     private var _binding: FragmentAccountBinding? = null
     private val binding get() = _binding!!
-    private val auth = FirebaseAuth.getInstance()
+    private lateinit var auth : FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
     companion object {
         fun newInstance() = AccountFragment()
     }
@@ -38,6 +42,9 @@ class AccountFragment : Fragment() {
     ): View? {
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         val view = binding.root
+        auth = FirebaseAuth.getInstance()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
 
         val editButton = binding.editprofile
         editButton.setOnClickListener {
@@ -87,9 +94,7 @@ class AccountFragment : Fragment() {
         else{
             logout_button_text.text = "Logout"
             logout_button.setOnClickListener {
-                auth.signOut()
-                val intent = Intent(requireContext(), LogInActivity::class.java)
-                startActivity(intent)
+                signOut()
             }
         }
         return view
@@ -99,4 +104,17 @@ class AccountFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    // Sign out function
+    private fun signOut(){
+        auth = FirebaseAuth.getInstance()
+        auth.signOut()
+        googleSignInClient.signOut()
+            .addOnCompleteListener{
+                startActivity(Intent(requireContext(),LogInActivity::class.java))
+                requireActivity().finish() // to prevent going back to profile fragment
+            }
+
+    }
+
 }

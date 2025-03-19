@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.ui.schedule.repository.ScheduleRepository
 import com.example.worka1.ui.schedule.viewModel.ScheduleViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class ScheduleFragment : Fragment() {
 
@@ -49,14 +51,13 @@ class ScheduleFragment : Fragment() {
                 emptyScheduleView.visibility = View.GONE
                 scheduleAdapter.updateData(schedules)
             } else {
+                Toast.makeText(requireContext(), "${FirebaseAuth.getInstance().currentUser?.uid}", Toast.LENGTH_SHORT).show()
                 recyclerView.visibility = View.GONE
                 emptyScheduleView.visibility = View.VISIBLE
             }
         }
 
         viewModel.fetchSchedules()
-
-         repository.addMockData()
 
         exploreService.setOnClickListener {
             findNavController().navigate(R.id.navigation_services)

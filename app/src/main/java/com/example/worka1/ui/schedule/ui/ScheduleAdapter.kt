@@ -9,9 +9,17 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worka1.R
 import com.example.worka1.ui.schedule.model.Schedule
+import com.example.worka1.ui.schedule.repository.ScheduleRepository
+import kotlinx.coroutines.launch
+import java.security.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Locale
+
 class ScheduleAdapter(private var schedules: List<Schedule>) :
     RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
 
@@ -28,22 +36,56 @@ class ScheduleAdapter(private var schedules: List<Schedule>) :
 
         fun bind(schedule: Schedule) {
             serviceDetails.text = schedule.serviceDetails
-            scheduledTime.text = schedule.scheduledTime?.toDate().toString()
+            val dateFormat = SimpleDateFormat("EEE, dd MMM, 'yy 'at' hh:mm a", Locale.getDefault())
+            scheduledTime.text = schedule.scheduledTime?.toDate()?.let { dateFormat.format(it) } ?: "N/A"
             partnerName.text = schedule.partnerName
             partnerRating.text = "4.57" // Hardcoded for now, can be dynamic
             partnerReviews.text = "• 218 Ratings"
 
+//            btnCall.setOnClickListener {
+//                val intent = Intent(Intent.ACTION_DIAL)
+//                intent.data = Uri.parse("tel:${schedule.phoneNumber}") // Use dynamic phone number
+//                it.context.startActivity(intent)
+//            }
             btnCall.setOnClickListener {
-                val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:+1234567890") // Replace with real phone number
-                it.context.startActivity(intent)
+                // Launch a coroutine to call suspend functions
+                (itemView.context as? FragmentActivity)?.lifecycleScope?.launch {
+                    val vendorId = schedule.vendorId
+                    val vendorType = schedule.vendorType
+                    val itemName = ScheduleRepository().getOrderDetails(schedule.orderId)?.get("orderItemName").toString()
+                    val vendorDetails = ScheduleRepository().getVendorDetails(vendorType, vendorId, itemName)
+
+                    if (vendorDetails != null) {
+                        val vendorPhone = vendorDetails["vendorPhone"] as? String ?: "N/A"
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        intent.data = Uri.parse("tel:$vendorPhone")
+                        itemView.context.startActivity(intent)
+                    } else {
+                        Toast.makeText(itemView.context, "Failed to fetch vendor details", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
 
             btnNeedHelp.setOnClickListener {
                 Toast.makeText(it.context, "Need Help clicked!", Toast.LENGTH_SHORT).show()
             }
             btnViewProject.setOnClickListener {
-                Toast.makeText(it.context, "View Project clicked!", Toast.LENGTH_SHORT).show()
+                // Launch a coroutine to call suspend functions
+                (itemView.context as? FragmentActivity)?.lifecycleScope?.launch {
+                    val orderId = schedule.orderId
+                    val orderDetails = ScheduleRepository().getOrderDetails(orderId)
+
+                    if (orderDetails != null) {
+                        val orderItemName = orderDetails["orderItemName"] as? String ?: "N/A"
+                        val bookingTime = orderDetails["bookingTime"] as? Timestamp
+                        val orderStatus = orderDetails["orderStatus"] as? String ?: "N/A"
+
+                        // Show details in a dialog or new activity
+                        Toast.makeText(itemView.context, "Order: $orderItemName, Status: $orderStatus", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(itemView.context, "Failed to fetch order details", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
